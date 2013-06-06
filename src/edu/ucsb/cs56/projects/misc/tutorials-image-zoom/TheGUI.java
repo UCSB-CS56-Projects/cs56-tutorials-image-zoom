@@ -29,49 +29,49 @@ public class TheGUI{
     JPanel bottomPanel      =      new JPanel();//Bottom subpanels
     JPanel topPanel         =      new JPanel();//Top subpanels
     JPanel infoPanel        =      new JPanel();//info panel on subpanels
-    JButton T387            =      new JButton("387");//button for Trailer 387
     JButton quit            =      new JButton("Quit");//cancel button for subscreens
     JButton ZoomIn          =      new JButton("Zoom In");
     JButton ZoomOut         =      new JButton("Zoom Out");
 
-    JLabel T387Label        =      new JLabel("387 - Trailer 387");
+    JLabel HFHLabel         =      new JLabel("HFH - Harold Frank Hall");
  
     
     //building information
-    String T387Info =//directions to get to trailer 387 from storke tower
-	"1 Start by making your way towards the University Center.\n"
-	+"\n"        
-	+"2 Once you get to the University Center make a left.\n"                           
-	+"\n" 
-	+"3 Coninue walking straight until you get to the bike path. "
-	+"Cross the bike path and cross the parking lot.\n"
-	+"\n" 
-	+"4 Trailer 387 will be the building parallel to the parking"
-	+ "lot on the right side of the parking lot.";
+    String HFHInfo =//directions to get to Harold Frank Hall from storke tower
+	"1 Start out by walking away from the University Center and towards the Women's Center. Find the sidewalk and turn left.\n"
+	+"\n"
+	+"2 Continue until you get to the library and walk up the steps and through the walkway next to the library.\n"
+	+"\n"
+	+"3 When you leave this walkway keep going straight until you cross the bike path and find the parking lot.\n"
+	+"\n"
+	+"4 Now, turn left and follow the bikepath that will be on your left. When the bike path turns right, follow it. "
+	+"Broida Hall will be on your left and Webb Hall will be on your right.\n"
+	+"\n"
+	+"5 Harold Frank Hall will be straight ahead. You will cross the bike path again and be right in front of it.";
     
     //function to set up the homescreen
     public void setUpHomeScreen() throws IOException{
 
-	newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Trailer 387
+	newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Harold Frank Hall
 	newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));//sets the new panel to a BoxLayout
 	newPanel.setSize(800,625);//sets the size of new panel
 
-	JTextArea T387TA = new JTextArea(T387Info);//creates a new space for text for directions
-	T387TA.setEditable(false);//makes the new text area NOT editable
-	T387TA.setLineWrap(true);//allows the lines to go to the next line if the current on is full
-	T387TA.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
-	JScrollPane T387Scroll = new JScrollPane(T387TA);//creates a new scrollable widget
-	T387Scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
-	T387TA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
-	infoPanel.add(T387Scroll);//adds the scrolling
+	JTextArea HFHTA = new JTextArea(HFHInfo);//creates a new space for text for directions
+	HFHTA.setEditable(false);//makes the new text area NOT editable
+	HFHTA.setLineWrap(true);//allows the lines to go to the next line if the current on is full
+	HFHTA.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
+	JScrollPane HFHScroll = new JScrollPane(HFHTA);//creates a new scrollable widget
+	HFHScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
+	HFHTA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
+	infoPanel.add(HFHScroll);//adds the scrolling
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
-	newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Trailer 387
-	topPanel.add(T387Label);//adds the label to the top panel
+	newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Harold Frank Hall
+	topPanel.add(HFHLabel);//adds the label to the top panel
 	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button
-	java.net.URL T387_URL = getClass().getResource("/387.jpg");//getClass().getResource loads the 387.jpg image, which has a line that directs from storke to the location
-	ImageIcon icon = new ImageIcon(T387_URL);
-	JLabel T387label = new JLabel(icon);//Creates a new label for the loaded image
+	java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");//getClass().getResource loads the HFH.jpg image, which has a line that directs from storke to the location
+	ImageIcon icon = new ImageIcon(HFH_URL);
+	JLabel HFHlabel = new JLabel(icon);//Creates a new label for the loaded image
 	
 	ZoomIn.setPreferredSize(new Dimension(100,50));
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
@@ -80,7 +80,7 @@ public class TheGUI{
 
 	newPanel.setMaximumSize(new Dimension(200,200));
 	
-	newPanel.add(T387label);//adds the image label onto the new panel
+	newPanel.add(HFHlabel);//adds the image label onto the new panel
 	frame.getContentPane().add(BorderLayout.EAST, infoPanel);//puts the panel with the direction text to the right side of the frame
 	frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
 	frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
@@ -129,22 +129,22 @@ public class TheGUI{
 
 	    quit.addActionListener(new QuitActionListener());
 
-	    java.net.URL T387_URL = getClass().getResource("/HFH.jpg");
-	    ImageIcon icon = new ImageIcon(T387_URL);
+	    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
+	    ImageIcon icon = new ImageIcon(HFH_URL);
 	    Image image = icon.getImage();
-	    Image ZoomedIn = image.getScaledInstance(2000, 1200, Image.SCALE_SMOOTH);//zooms in the image
+	    Image ZoomedIn = image.getScaledInstance(1500, 900, Image.SCALE_SMOOTH);//zooms in the image
 	    ImageIcon finalIcon = new ImageIcon(ZoomedIn);
-	    JLabel T387label = new JLabel(finalIcon);
+	    JLabel HFHlabel = new JLabel(finalIcon);
 	    
 	    ZoomOut.setPreferredSize(new Dimension(100,50));
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	    bottomPanel.add(ZoomOut);
 	    ZoomOut.addActionListener(new ZoomOutActionListener());
  
-	    T387label.setLocation(-550,-900);	//sets location of resized label
-	    T387label.setSize(new Dimension(2000,2000));//sets size of resized label
+	    HFHlabel.setLocation(-550,-900);	//sets location of resized label
+	    HFHlabel.setSize(new Dimension(2000,2000));//sets size of resized label
 
-	    newPanel.add(T387label);//adds the image label onto the new panel
+	    newPanel.add(HFHlabel);//adds the image label onto the new panel
 	    
 	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
 	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
@@ -156,43 +156,35 @@ public class TheGUI{
 
    class ZoomOutActionListener implements ActionListener{
       	 public void actionPerformed(ActionEvent event){
-	    guiRemoveAll();
-	    newPanel.setBackground(Color.WHITE);
-	    newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
-	    newPanel.setSize(800,625);
-	    
-	    JTextArea T387TA = new JTextArea(T387Info);
-	    T387TA.setEditable(false);
-	    T387TA.setLineWrap(true);
-	    T387TA.setWrapStyleWord(true);
-	    JScrollPane T387Scroll = new JScrollPane(T387TA);
-	    T387Scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	    T387TA.setPreferredSize(new Dimension(200,600));
-	    infoPanel.add(T387Scroll);
-	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(quit);
-	    newPanel.add(bottomPanel);
-	    topPanel.add(T387Label);
-	    quit.addActionListener(new QuitActionListener());
-	    java.net.URL T387_URL = getClass().getResource("/387.jpg");
-	    ImageIcon icon = new ImageIcon(T387_URL);
-	    JLabel T387label = new JLabel(icon);
-	    
-	    
-	    ZoomIn.setPreferredSize(new Dimension(100,50));
-	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(ZoomIn);
-	    ZoomIn.addActionListener(new ZoomInActionListener());
+	     bottomPanel.removeAll();
+	     newPanel.removeAll();
 
-	    newPanel.add(T387label);
-	    frame.getContentPane().add(BorderLayout.EAST, infoPanel);
-	    frame.getContentPane().add(BorderLayout.NORTH, topPanel);
-	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
-	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
-	    frame.setSize(1000,625);
-	    frame.setBackground(Color.WHITE);
-	    frame.setVisible(true);
-       
+	     newPanel.setBackground(Color.WHITE);
+	     newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+	     newPanel.setSize(800,625);
+
+	     bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+	     bottomPanel.add(quit);
+	     newPanel.add(bottomPanel);
+
+	     quit.addActionListener(new QuitActionListener());
+
+	     java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
+	     ImageIcon icon = new ImageIcon(HFH_URL);
+	     JLabel HFHlabel = new JLabel(icon);
+	     
+	     ZoomIn.setPreferredSize(new Dimension(100,50));
+	     bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+	     bottomPanel.add(ZoomIn);
+	     ZoomIn.addActionListener(new ZoomInActionListener());
+	     
+	     newPanel.add(HFHlabel);
+
+	     frame.getContentPane().add(BorderLayout.CENTER,newPanel);
+	     frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
+	     frame.setSize(1000,625);
+	     frame.setBackground(Color.WHITE);
+	     frame.setVisible(true);
 	    }
     }
 

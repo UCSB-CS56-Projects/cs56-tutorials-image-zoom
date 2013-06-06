@@ -30,13 +30,11 @@ public class TheGUI{
     JPanel topPanel         =      new JPanel();//Top subpanels
     JPanel infoPanel        =      new JPanel();//info panel on subpanels
     JButton T387            =      new JButton("387");//button for Trailer 387
-    JButton cancel          =      new JButton("Cancel");//cancel button for subscreens
-    JButton ZoomIn          =      new JButton("Zoom +");
-    JButton ZoomOut         =      new JButton("Zoom -");
-    JButton ZoomInT387      =      new JButton("Zoom +");
-    JButton ZoomOutT387     =      new JButton("Zoom -");
+    JButton quit            =      new JButton("Quit");//cancel button for subscreens
+    JButton ZoomIn          =      new JButton("Zoom In");
+    JButton ZoomOut         =      new JButton("Zoom Out");
 
-    JLabel T387Label    =      new JLabel("387 - Trailer 387");
+    JLabel T387Label        =      new JLabel("387 - Trailer 387");
  
     
     //building information
@@ -67,18 +65,18 @@ public class TheGUI{
 	T387TA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
 	infoPanel.add(T387Scroll);//adds the scrollin
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(cancel);//adds a cancel button on the panel located at the bottom of the frame
+	bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
 	newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Trailer 387
 	topPanel.add(T387Label);//adds the label to the top panel
-	cancel.addActionListener(new CancelActionListener());//adds a new ActionListener to the Cancel button
+	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button
 	java.net.URL T387_URL = getClass().getResource("/387.jpg");//getClass().getResource loads the 387.jpg image, which has a line that directs from storke to the location
 	ImageIcon icon = new ImageIcon(T387_URL);
 	JLabel T387label = new JLabel(icon);//Creates a new label for the loaded image
 	
-	ZoomInT387.setPreferredSize(new Dimension(100,50));
+	ZoomIn.setPreferredSize(new Dimension(100,50));
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(ZoomInT387);
-	ZoomInT387.addActionListener(new ZoomInT387ActionListener());
+	bottomPanel.add(ZoomIn);
+	ZoomIn.addActionListener(new ZoomInActionListener());
 	
 
 	//String Path = "387.jpg";
@@ -123,7 +121,7 @@ public class TheGUI{
     }//end guiRemoveAll
     
 
-    class ZoomInT387ActionListener implements ActionListener{
+    class ZoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
 
 	    guiRemoveAll();//deletes current panels on the frame and creates a new one
@@ -141,10 +139,10 @@ public class TheGUI{
 	    T387TA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
 	    infoPanel.add(T387Scroll);//adds the scrollin
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(cancel);//adds a cancel button on the panel located at the bottom of the frame
+	    bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
 	    newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Trailer 387
 	    topPanel.add(T387Label);//adds the label to the top panel
-	    cancel.addActionListener(new CancelActionListener());//adds a new ActionListener to the Cancel button
+	    quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button
 	    java.net.URL T387_URL = getClass().getResource("/387.jpg");//getClass().getResource loads the 387.jpg image, which has a line that directs from storke to the location
 	    
 	    ImageIcon icon = new ImageIcon(T387_URL);
@@ -153,10 +151,10 @@ public class TheGUI{
 	    ImageIcon finalIcon = new ImageIcon(ZoomedIn);
 	    JLabel T387label = new JLabel(finalIcon);//Creates a new label for the loaded image
 	  
-	    ZoomOutT387.setPreferredSize(new Dimension(100,50));
+	    ZoomOut.setPreferredSize(new Dimension(100,50));
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(ZoomOutT387);
-	    ZoomOutT387.addActionListener(new ZoomOutT387ActionListener());
+	    bottomPanel.add(ZoomOut);
+	    ZoomOut.addActionListener(new ZoomOutActionListener());
 	    
 	    //String Path = "387.jpg";
 	    //File File = new File(Path);
@@ -182,7 +180,7 @@ public class TheGUI{
 	}
     }
 
-   class ZoomOutT387ActionListener implements ActionListener{
+   class ZoomOutActionListener implements ActionListener{
       	 public void actionPerformed(ActionEvent event){
 	    guiRemoveAll();//deletes current panels on the frame and creates a new one
 	    newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Trailer 387
@@ -198,19 +196,19 @@ public class TheGUI{
 	    T387TA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
 	    infoPanel.add(T387Scroll);//adds the scrollin
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(cancel);//adds a cancel button on the panel located at the bottom of the frame
+	    bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
 	    newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Trailer 387
 	    topPanel.add(T387Label);//adds the label to the top panel
-	    cancel.addActionListener(new CancelActionListener());//adds a new ActionListener to the Cancel button
+	    quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button
 	    java.net.URL T387_URL = getClass().getResource("/387.jpg");//getClass().getResource loads the 387.jpg image, which has a line that directs from storke to the location
 	    ImageIcon icon = new ImageIcon(T387_URL);
 	    JLabel T387label = new JLabel(icon);//Creates a new label for the loaded image
 	    
 	    
-	    ZoomInT387.setPreferredSize(new Dimension(100,50));
+	    ZoomIn.setPreferredSize(new Dimension(100,50));
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(ZoomInT387);
-	    ZoomInT387.addActionListener(new ZoomInT387ActionListener());
+	    bottomPanel.add(ZoomIn);
+	    ZoomIn.addActionListener(new ZoomInActionListener());
 
 	    //String Path = "387.jpg";
 	    //File File = new File(Path);
@@ -232,7 +230,7 @@ public class TheGUI{
 
 
     //action listener class for the cancel button
-    class CancelActionListener implements ActionListener{//the action listener when the cancel button is pressed
+    class QuitActionListener implements ActionListener{//the action listener when the cancel button is pressed
 	public void actionPerformed(ActionEvent event){//the action that is performed after pressing cancel on one of the direction guis
 	    System.exit(0);
 	    

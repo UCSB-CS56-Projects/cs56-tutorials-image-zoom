@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="0.2 1.0" codebase="http://www.cs.ucsb.edu/~dennishuynh/cs56/W12/issues/0000707/jws" href="Run.jnlp">
+ <information>
+   <title>UCSB CS56 W12 issue 0000707 Aki Stankoski and Dennis Huynh TheGUI</title>
+   <vendor>UCSB CS56</vendor>
+   <homepage href="." />
+   <description>A simple GUI</description>
+  <offline-allowed />
+ </information>
+ <resources>
+  <j2se version="1.3+" />
+  <jar href="cs56_W12_0000707.jar" />
+ </resources>
+ <application-desc main-class="thegui.Run"/>
+</jnlp>

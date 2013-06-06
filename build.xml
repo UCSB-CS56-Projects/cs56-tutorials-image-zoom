@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project default="compile">
 
-  <!-- build.xml for Mantis issue
-       name: Aki Stankoski and Dennis Huynh for CS56, W12 -->
+  <!-- build.xml for image zoom
+       name: Spencer Pao, Bohan Lin  CS56, S13 -->
 
   <property environment="env"/> <!-- load the environment variables --> 
    <property name="webRoot" value="${env.HOME}/public_html/" />

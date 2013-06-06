@@ -17,8 +17,10 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;  
 import java.awt.event.MouseEvent;
 /**
- * TheGUI class creates the interface using swing for image GUI. 
+ * TheGUI class creates the interface using swing for the image GUI
  * @author Aki Stankoski and Dennis Huynh
+ * @author Spencer Pao and Bohan Lin
+ *
  */
 
 
@@ -41,19 +43,15 @@ public class TheGUI{
      
     //building information
     String HFHInfo =//directions to get to Harold Frank Hall from storke tower
-	"1 Start out by walking away from the University Center and towards the Women's Center. Find the sidewalk and turn left.\n"
-	+"\n"
-	+"2 Continue until you get to the library and walk up the steps and through the walkway next to the library.\n"
-	+"\n"
-	+"3 When you leave this walkway keep going straight until you cross the bike path and find the parking lot.\n"
-	+"\n"
-	+"4 Now, turn left and follow the bikepath that will be on your left. When the bike path turns right, follow it. "
-	+"Broida Hall will be on your left and Webb Hall will be on your right.\n"
-	+"\n"
-	+"5 Harold Frank Hall will be straight ahead. You will cross the bike path again and be right in front of it.";
-    
-    //function to set up the homescreen
-    public void setUpHomeScreen() throws IOException{
+	"Generic instructions\n";
+
+
+    //function to set up the basic display
+    /**
+     * Sets up the basic display which includes the image, zoom, and quit buttons
+     * @exception IOException is thrown
+     */
+    public void setUpDisplay() throws IOException{
 
 	newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Harold Frank Hall
 	newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));//sets the new panel to a BoxLayout
@@ -97,6 +95,11 @@ public class TheGUI{
 	frame.setVisible(true);//enables us to see the frame
     }//end setUpHomeScreen
     
+    /**
+     * Zooms by redrawing the image in newPanel to a different scale.
+     */
+    
+    
     class ZoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
 	    bottomPanel.removeAll();
@@ -138,7 +141,10 @@ public class TheGUI{
     }
 
    class ZoomOutActionListener implements ActionListener{
-      	 public void actionPerformed(ActionEvent event){
+       /**
+	* Implements action for zooming out
+	*/
+       public void actionPerformed(ActionEvent event){
 	     bottomPanel.removeAll();
 	     newPanel.removeAll();
 
@@ -172,8 +178,12 @@ public class TheGUI{
     }
 	  
     //action listener class for the cancel button
-    class QuitActionListener implements ActionListener{//the action listener when the cancel button is pressed
-	public void actionPerformed(ActionEvent event){//the action that is performed after pressing cancel on one of the direction guis
+    
+    /**
+     * Quit button action listener. Exits on-click.
+     */
+    class QuitActionListener implements ActionListener{//the action listener when the quit button is pressed
+	public void actionPerformed(ActionEvent event){//the action that is performed after pressing quit
 	    System.exit(0);
 	    
 	}

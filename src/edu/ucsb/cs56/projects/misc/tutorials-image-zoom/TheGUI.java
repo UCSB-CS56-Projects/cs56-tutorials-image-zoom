@@ -40,8 +40,8 @@ public class TheGUI{
     JButton ZoomOut         =      new JButton("Zoom -");
  
     JLabel HFHLabel         =      new JLabel("HFH - Harold Frank Hall");
-    int zoomKeeper = 0;
-   
+    int zoomKeeper = 0; //keeps track of the level of zoom. Zoom in and out then either zoom farther in by incrementing 1 or decrementing 1
+
     
 
     //building information
@@ -87,6 +87,7 @@ public class TheGUI{
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(ZoomOut);
 	ZoomOut.addActionListener(new ZoomOutActionListener());
+       	ZoomOut.setEnabled(false);
 
 	newPanel.setMaximumSize(new Dimension(200,200));
 	
@@ -101,6 +102,7 @@ public class TheGUI{
 
 	frame.setBackground(Color.WHITE);//sets the background color of the frame to white
 	frame.setVisible(true);//enables us to see the frame
+
     }//end setUpHomeScreen
     
     /**
@@ -110,28 +112,25 @@ public class TheGUI{
     
     class ZoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
-	    zoomKeeper++;
-	    int zoomWidth=zoomKeeper*1500; //scales the image based on zoomKeeper
-	    int zoomHeight=zoomKeeper*900;
+	    zoomKeeper++;//increments zoomKeeper which controls the level of zoom
+       	    if(zoomKeeper == 5)
+		ZoomIn.setEnabled(false);
+	    ZoomOut.setEnabled(true);//enables the zoomout key after the initial zoom. Zooming out in a picture that hasn't been zoomed in on would be pointless.
+	    int zoomWidth=zoomKeeper*1500; //scales the image width based on zoomKeeper
+	    int zoomHeight=zoomKeeper*900;//scales the image height based on zoomKeeper
 	    newPanel.removeAll();
-	    
 	    newPanel.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
 	    newPanel.setBackground(Color.WHITE);
 	    newPanel.setSize(1500,900);
 	    newPanel.add(bottomPanel);
-	   
 	    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
 	    ImageIcon icon = new ImageIcon(HFH_URL);
 	    Image image = icon.getImage();
-	   
 	    Image ZoomedIn = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
-		    
 	    ImageIcon finalIcon = new ImageIcon(ZoomedIn);
 	    JLabel HFHlabel = new JLabel(finalIcon);
 	    HFHlabel.setLocation(-750,-450);
-	
 	    HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
-
 	    newPanel.add(HFHlabel);//adds the image label onto the new panel	    	   
 	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
 	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
@@ -144,28 +143,35 @@ public class TheGUI{
     class ZoomOutActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
 	    zoomKeeper--;
-	    int zoomWidth=1500/zoomKeeper; //scales the image based on zoomKeeper
-	    int zoomHeight=900/zoomKeeper;
+      	    ZoomIn.setEnabled(true);
+	    if(zoomKeeper == 0)
+		ZoomOut.setEnabled(false);
+	    else if(zoomKeeper > 1)
+		ZoomOut.setEnabled(true);
+	    int zoomWidth=zoomKeeper*1500; //scales the image based on zoomKeeper
+	    int zoomHeight=zoomKeeper*900;
 	    newPanel.removeAll();
-	    
 	    newPanel.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
 	    newPanel.setBackground(Color.WHITE);
 	    newPanel.setSize(1500,900);
 	    newPanel.add(bottomPanel);
-	   
 	    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
 	    ImageIcon icon = new ImageIcon(HFH_URL);
-	    Image image = icon.getImage();
-	   
+	    if(zoomKeeper == 0){
+	    JLabel HFHlabel2 = new JLabel(icon);
+	    HFHlabel2.setLocation(-750, -450);
+	    HFHlabel2.setSize(new Dimension(1500,900));
+	    newPanel.add(HFHlabel2);
+	    }
+	    else{
+       	    Image image = icon.getImage();
 	    Image ZoomedOut = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
-		    
 	    ImageIcon finalIcon = new ImageIcon(ZoomedOut);
 	    JLabel HFHlabel = new JLabel(finalIcon);
 	    HFHlabel.setLocation(-750,-450);
-	
 	    HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
-
-	    newPanel.add(HFHlabel);//adds the image label onto the new panel	    	   
+	    newPanel.add(HFHlabel);//adds the image label onto the new panel	    
+	    }
 	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
 	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
 	    frame.setSize(1000,625);
@@ -174,44 +180,6 @@ public class TheGUI{
 	}
     }
 
-
-
-    /*
-    class ZoomOutActionListener implements ActionListener{
-
-	public void actionPerformed(ActionEvent event){
-	    bottomPanel.removeAll();
-	    newPanel.removeAll();
-
-	    newPanel.setBackground(Color.WHITE);
-	    newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
-	    newPanel.setSize(800,625);
-
-	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(quit);
-	    newPanel.add(bottomPanel);
-
-	    quit.addActionListener(new QuitActionListener());
-
-	    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
-	    ImageIcon icon = new ImageIcon(HFH_URL);
-	    JLabel HFHlabel = new JLabel(icon);
-	     
-	    ZoomIn.setPreferredSize(new Dimension(100,50));
-	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(ZoomIn);
-	    ZoomIn.addActionListener(new ZoomInActionListener());
-	    newPanel.add(HFHlabel);//adds the image onto newPanel
-	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
-	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
-	    frame.setSize(1000,625);
-	    frame.setBackground(Color.WHITE);
-	    frame.setVisible(true);
-	}
-    }*/
-	  
-    //action listener class for the cancel button
-    
     /**
      * Quit button action listener. Exits on-click.
      */

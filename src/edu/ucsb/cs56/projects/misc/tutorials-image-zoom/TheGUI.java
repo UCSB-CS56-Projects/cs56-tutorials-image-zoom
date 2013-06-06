@@ -32,7 +32,11 @@ public class TheGUI{
     JButton quit            =      new JButton("Quit");//cancel button for subscreens
     JButton ZoomIn          =      new JButton("Zoom +");
     JButton ZoomOut         =      new JButton("Zoom -");
-
+    JButton Up              =      new JButton("^");
+    JButton Right           =      new JButton(">");
+    JButton Left            =      new JButton("<");
+    JButton Down            =      new JButton("v");
+    
     JLabel HFHLabel         =      new JLabel("HFH - Harold Frank Hall");
  
     
@@ -64,8 +68,12 @@ public class TheGUI{
 	HFHScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
 	HFHTA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
 	infoPanel.add(HFHScroll);//adds the scrolling
-	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+        bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
+	bottomPanel.add(Up);
+	bottomPanel.add(Down);
+	bottomPanel.add(Left);
+	bottomPanel.add(Right);
 	newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Harold Frank Hall
 	topPanel.add(HFHLabel);//adds the label to the top panel
 	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button

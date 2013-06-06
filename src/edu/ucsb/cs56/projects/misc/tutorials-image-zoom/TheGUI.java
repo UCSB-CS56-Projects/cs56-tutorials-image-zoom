@@ -51,7 +51,7 @@ public class TheGUI{
     
     //function to set up the homescreen
     public void setUpHomeScreen() throws IOException{
-	guiRemoveAll();//starts by clearing all GUIs
+
 	newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Trailer 387
 	newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));//sets the new panel to a BoxLayout
 	newPanel.setSize(800,625);//sets the size of new panel
@@ -63,7 +63,7 @@ public class TheGUI{
 	JScrollPane T387Scroll = new JScrollPane(T387TA);//creates a new scrollable widget
 	T387Scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
 	T387TA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
-	infoPanel.add(T387Scroll);//adds the scrollin
+	infoPanel.add(T387Scroll);//adds the scrolling
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
 	newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Trailer 387
@@ -77,13 +77,6 @@ public class TheGUI{
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(ZoomIn);
 	ZoomIn.addActionListener(new ZoomInActionListener());
-	
-
-	//String Path = "387.jpg";
-	//File File = new File(Path);
-	//BufferedImage Image = ImageIO.read(File);
-	//JLabel label = new JLabel(new ImageIcon(Image));
-
 
 	newPanel.setMaximumSize(new Dimension(200,200));
 	
@@ -124,85 +117,75 @@ public class TheGUI{
     class ZoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
 
-	    guiRemoveAll();//deletes current panels on the frame and creates a new one
+	    guiRemoveAll();
 	    newPanel.setLayout(null); //added 8:51am
-	    newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Trailer 387
-	    //newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));//sets the new panel to a BoxLayout
-	    newPanel.setSize(1000,625);//sets the size of new panel
+	    newPanel.setBackground(Color.WHITE);
+	    newPanel.setSize(1000,625);
 	    
-	    JTextArea T387TA = new JTextArea(T387Info);//creates a new space for text for directions
-	    T387TA.setEditable(false);//makes the new text area NOT editable
-	    T387TA.setLineWrap(true);//allows the lines to go to the next line if the current on is full
-	    T387TA.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
-	    JScrollPane T387Scroll = new JScrollPane(T387TA);//creates a new scrollable widget
-	    T387Scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
-	    T387TA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
-	    infoPanel.add(T387Scroll);//adds the scrollin
+	    JTextArea T387TA = new JTextArea(T387Info);
+	    T387TA.setEditable(false);
+	    T387TA.setLineWrap(true);
+	    T387TA.setWrapStyleWord(true);
+	    JScrollPane T387Scroll = new JScrollPane(T387TA);
+	    T387Scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	    T387TA.setPreferredSize(new Dimension(200,600));
+	    infoPanel.add(T387Scroll);
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
-	    newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Trailer 387
-	    topPanel.add(T387Label);//adds the label to the top panel
-	    quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button
-	    java.net.URL T387_URL = getClass().getResource("/387.jpg");//getClass().getResource loads the 387.jpg image, which has a line that directs from storke to the location
+	    bottomPanel.add(quit);
+	    newPanel.add(bottomPanel);
+	    topPanel.add(T387Label);
+	    quit.addActionListener(new QuitActionListener());
+	    java.net.URL T387_URL = getClass().getResource("/387.jpg");
 	    
 	    ImageIcon icon = new ImageIcon(T387_URL);
 	    Image image = icon.getImage();
 	    Image ZoomedIn = image.getScaledInstance(2000, 1200, Image.SCALE_SMOOTH);
 	    ImageIcon finalIcon = new ImageIcon(ZoomedIn);
-	    JLabel T387label = new JLabel(finalIcon);//Creates a new label for the loaded image
+	    JLabel T387label = new JLabel(finalIcon);
 	  
 	    ZoomOut.setPreferredSize(new Dimension(100,50));
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	    bottomPanel.add(ZoomOut);
 	    ZoomOut.addActionListener(new ZoomOutActionListener());
-	    
-	    //String Path = "387.jpg";
-	    //File File = new File(Path);
-	    //BufferedImage Image = ImageIO.read(File);
-	    //JLabel label = new JLabel(new ImageIcon(Image));
      
-	    T387label.setLocation(-550,-900);	//sets location of resized label	    
-	    T387label.setSize(new Dimension(2000,2000));//sets size of resized label
-	    //T387Label.setVisible(false);
-	    // newPanel.setMaximumSize(new Dimension(200,200));//added 12:35 edited from 20/20 to 200/200
-	    //newPanel.setVisible(false);
-	      //    T387label.setLocation(-50,-200);
+	    T387label.setLocation(-550,-900);
+	    T387label.setSize(new Dimension(2000,2000));
 
-	    newPanel.add(T387label);//adds the image label onto the new panel
+	    newPanel.add(T387label);
 		    
-	    frame.getContentPane().add(BorderLayout.EAST, infoPanel);//puts the panel with the direction text to the right side of the frame
-	    frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
-	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
-	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);//adds the bottom panel, or the pannel with the cancel button, to the bottom of the frame
-	    frame.setSize(1000,625);//sets the size of the frame
-	    frame.setBackground(Color.WHITE);//sets the background color of the frame to white
-	    frame.setVisible(true);//enables us to see the frame
+	    frame.getContentPane().add(BorderLayout.EAST, infoPanel);
+	    frame.getContentPane().add(BorderLayout.NORTH, topPanel);
+	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
+	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
+	    frame.setSize(1000,625);
+	    frame.setBackground(Color.WHITE);
+	    frame.setVisible(true);
 	}
     }
 
    class ZoomOutActionListener implements ActionListener{
       	 public void actionPerformed(ActionEvent event){
-	    guiRemoveAll();//deletes current panels on the frame and creates a new one
-	    newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Trailer 387
-	    newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));//sets the new panel to a BoxLayout
-	    newPanel.setSize(800,625);//sets the size of new panel
+	    guiRemoveAll();
+	    newPanel.setBackground(Color.WHITE);
+	    newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+	    newPanel.setSize(800,625);
 	    
-	    JTextArea T387TA = new JTextArea(T387Info);//creates a new space for text for directions
-	    T387TA.setEditable(false);//makes the new text area NOT editable
-	    T387TA.setLineWrap(true);//allows the lines to go to the next line if the current on is full
-	    T387TA.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
-	    JScrollPane T387Scroll = new JScrollPane(T387TA);//creates a new scrollable widget
-	    T387Scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
-	    T387TA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
-	    infoPanel.add(T387Scroll);//adds the scrollin
+	    JTextArea T387TA = new JTextArea(T387Info);
+	    T387TA.setEditable(false);
+	    T387TA.setLineWrap(true);
+	    T387TA.setWrapStyleWord(true);
+	    JScrollPane T387Scroll = new JScrollPane(T387TA);
+	    T387Scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	    T387TA.setPreferredSize(new Dimension(200,600));
+	    infoPanel.add(T387Scroll);
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	    bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
-	    newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Trailer 387
-	    topPanel.add(T387Label);//adds the label to the top panel
-	    quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button
-	    java.net.URL T387_URL = getClass().getResource("/387.jpg");//getClass().getResource loads the 387.jpg image, which has a line that directs from storke to the location
+	    bottomPanel.add(quit);
+	    newPanel.add(bottomPanel);
+	    topPanel.add(T387Label);
+	    quit.addActionListener(new QuitActionListener());
+	    java.net.URL T387_URL = getClass().getResource("/387.jpg");
 	    ImageIcon icon = new ImageIcon(T387_URL);
-	    JLabel T387label = new JLabel(icon);//Creates a new label for the loaded image
+	    JLabel T387label = new JLabel(icon);
 	    
 	    
 	    ZoomIn.setPreferredSize(new Dimension(100,50));
@@ -210,18 +193,14 @@ public class TheGUI{
 	    bottomPanel.add(ZoomIn);
 	    ZoomIn.addActionListener(new ZoomInActionListener());
 
-	    //String Path = "387.jpg";
-	    //File File = new File(Path);
-	    //BufferedImage Image = ImageIO.read(File);
-	    //JLabel label = new JLabel(new ImageIcon(Image));
-	    newPanel.add(T387label);//adds the image label onto the new panel
-	    frame.getContentPane().add(BorderLayout.EAST, infoPanel);//puts the panel with the direction text to the right side of the frame
-	    frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
-	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
-	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);//adds the bottom panel, or the pannel with the cancel button, to the bottom of the frame
-	    frame.setSize(1000,625);//sets the size of the frame
-	    frame.setBackground(Color.WHITE);//sets the background color of the frame to white
-	    frame.setVisible(true);//enables us to see the frame
+	    newPanel.add(T387label);
+	    frame.getContentPane().add(BorderLayout.EAST, infoPanel);
+	    frame.getContentPane().add(BorderLayout.NORTH, topPanel);
+	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
+	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
+	    frame.setSize(1000,625);
+	    frame.setBackground(Color.WHITE);
+	    frame.setVisible(true);
        
 	    }
     }

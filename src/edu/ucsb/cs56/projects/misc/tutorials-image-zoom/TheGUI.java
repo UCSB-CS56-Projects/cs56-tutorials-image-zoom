@@ -12,6 +12,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Dimension;
+import java.awt.Point;  
+import java.awt.Rectangle; 
+import java.awt.event.MouseAdapter;  
+import java.awt.event.MouseEvent;
 /**
  * TheGUI class creates the interface using swing for image GUI. 
  * @author Aki Stankoski and Dennis Huynh
@@ -32,14 +36,9 @@ public class TheGUI{
     JButton quit            =      new JButton("Quit");//cancel button for subscreens
     JButton ZoomIn          =      new JButton("Zoom +");
     JButton ZoomOut         =      new JButton("Zoom -");
-    JButton Up              =      new JButton("^");
-    JButton Right           =      new JButton(">");
-    JButton Left            =      new JButton("<");
-    JButton Down            =      new JButton("v");
-    
-    JLabel HFHLabel         =      new JLabel("HFH - Harold Frank Hall");
  
-    
+    JLabel HFHLabel         =      new JLabel("HFH - Harold Frank Hall");
+     
     //building information
     String HFHInfo =//directions to get to Harold Frank Hall from storke tower
 	"1 Start out by walking away from the University Center and towards the Women's Center. Find the sidewalk and turn left.\n"
@@ -70,10 +69,7 @@ public class TheGUI{
 	infoPanel.add(HFHScroll);//adds the scrolling
         bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
-	bottomPanel.add(Up);
-	bottomPanel.add(Down);
-	bottomPanel.add(Left);
-	bottomPanel.add(Right);
+
 	newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Harold Frank Hall
 	topPanel.add(HFHLabel);//adds the label to the top panel
 	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button
@@ -101,27 +97,6 @@ public class TheGUI{
 	frame.setVisible(true);//enables us to see the frame
     }//end setUpHomeScreen
     
-    //function to clear the main frame
-    /**
-     * Removes all components of the frame, useful before switching panels
-     */
-    public void guiRemoveAll() {
-    	////this wipes the frame clean, use before switching panels
-	leftPanel.removeAll();
-	rightPanel.removeAll();
-	bottomPanel.removeAll();
-	topPanel.removeAll();
-	infoPanel.removeAll();
-	thePanel.removeAll();
-	newPanel.removeAll();
-	frame.getContentPane().removeAll();
-	frame.getContentPane().remove(thePanel);
-	frame.getContentPane().remove(newPanel);
-	frame.validate();
-	frame.repaint();
-    }//end guiRemoveAll
-    
-
     class ZoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
 	    bottomPanel.removeAll();
@@ -195,10 +170,7 @@ public class TheGUI{
 	     frame.setVisible(true);
 	    }
     }
-
-
-
-
+	  
     //action listener class for the cancel button
     class QuitActionListener implements ActionListener{//the action listener when the cancel button is pressed
 	public void actionPerformed(ActionEvent event){//the action that is performed after pressing cancel on one of the direction guis

@@ -116,45 +116,36 @@ public class TheGUI{
 
     class ZoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
+	    bottomPanel.removeAll();
+	    newPanel.removeAll();
 
-	    guiRemoveAll();
-	    newPanel.setLayout(null); //added 8:51am
+	    newPanel.setLayout(null);
 	    newPanel.setBackground(Color.WHITE);
 	    newPanel.setSize(1000,625);
 	    
-	    JTextArea T387TA = new JTextArea(T387Info);
-	    T387TA.setEditable(false);
-	    T387TA.setLineWrap(true);
-	    T387TA.setWrapStyleWord(true);
-	    JScrollPane T387Scroll = new JScrollPane(T387TA);
-	    T387Scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	    T387TA.setPreferredSize(new Dimension(200,600));
-	    infoPanel.add(T387Scroll);
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	    bottomPanel.add(quit);
 	    newPanel.add(bottomPanel);
-	    topPanel.add(T387Label);
+
 	    quit.addActionListener(new QuitActionListener());
-	    java.net.URL T387_URL = getClass().getResource("/387.jpg");
-	    
+
+	    java.net.URL T387_URL = getClass().getResource("/HFH.jpg");
 	    ImageIcon icon = new ImageIcon(T387_URL);
 	    Image image = icon.getImage();
-	    Image ZoomedIn = image.getScaledInstance(2000, 1200, Image.SCALE_SMOOTH);
+	    Image ZoomedIn = image.getScaledInstance(2000, 1200, Image.SCALE_SMOOTH);//zooms in the image
 	    ImageIcon finalIcon = new ImageIcon(ZoomedIn);
 	    JLabel T387label = new JLabel(finalIcon);
-	  
+	    
 	    ZoomOut.setPreferredSize(new Dimension(100,50));
 	    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	    bottomPanel.add(ZoomOut);
 	    ZoomOut.addActionListener(new ZoomOutActionListener());
-     
-	    T387label.setLocation(-550,-900);
-	    T387label.setSize(new Dimension(2000,2000));
+ 
+	    T387label.setLocation(-550,-900);	//sets location of resized label
+	    T387label.setSize(new Dimension(2000,2000));//sets size of resized label
 
-	    newPanel.add(T387label);
-		    
-	    frame.getContentPane().add(BorderLayout.EAST, infoPanel);
-	    frame.getContentPane().add(BorderLayout.NORTH, topPanel);
+	    newPanel.add(T387label);//adds the image label onto the new panel
+	    
 	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
 	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
 	    frame.setSize(1000,625);

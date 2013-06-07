@@ -57,20 +57,9 @@ public class TheGUI{
      */
 
     public void setUpDisplay() throws IOException{
-	topPanel.add(HFHLabel);//adds the label to the top panel
-	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
-	ZoomIn.setPreferredSize(new Dimension(100,50));
-	ZoomIn.addActionListener(new ZoomInActionListener());
-	ZoomOut.setPreferredSize(new Dimension(100,50));
-	ZoomOut.addActionListener(new ZoomOutActionListener());
-       	ZoomOut.setEnabled(false);
-        bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(quit);//adds a quit button on the panel located at the bottom of the frame
-	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(ZoomIn);
-	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(ZoomOut);
-
+	addTopPanel();
+	setButtons();
+	addBottomPanel();
 	setNewPanel();
 	setHFHlabel();
 	addToFrame();
@@ -84,12 +73,11 @@ public class TheGUI{
     class ZoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
 	    zoomKeeper++;//increments zoomKeeper which controls the level of zoom
+	    ZoomOut.setEnabled(true);//enables the zoomout key after the initial zoom. Zooming out in a picture that hasn't been zoomed in on would be pointless.
        	    if(zoomKeeper == 5)
 		ZoomIn.setEnabled(false);
-	    ZoomOut.setEnabled(true);//enables the zoomout key after the initial zoom. Zooming out in a picture that hasn't been zoomed in on would be pointless.
-	    zoomWidth=zoomKeeper*1500; //scales the image width based on zoomKeeper
-	    zoomHeight=zoomKeeper*900;//scales the image height based on zoomKeeper
 
+	    setZoomValues();
 	    setNewPanel();
 	    setHFHlabel();
 	    addToFrame();
@@ -105,13 +93,39 @@ public class TheGUI{
 		ZoomOut.setEnabled(false);
 	    else if(zoomKeeper > 1)
 		ZoomOut.setEnabled(true);
-	    zoomWidth=zoomKeeper*1500; //scales the image based on zoomKeeper
-	    zoomHeight=zoomKeeper*900;
 
+	    setZoomValues();
 	    setNewPanel();
 	    setHFHlabel();
 	    addToFrame();
 	}
+    }
+
+    public void addTopPanel(){
+	topPanel.add(HFHLabel);//adds the label to the top panel
+    }
+
+    public void setButtons(){
+	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
+	ZoomIn.setPreferredSize(new Dimension(100,50));
+	ZoomIn.addActionListener(new ZoomInActionListener());
+	ZoomOut.setPreferredSize(new Dimension(100,50));
+	ZoomOut.addActionListener(new ZoomOutActionListener());
+       	ZoomOut.setEnabled(false);
+    }
+
+    public void setZoomValues(){
+	zoomWidth=zoomKeeper*1500; //scales the image width based on zoomKeeper
+	zoomHeight=zoomKeeper*900;//scales the image height based on zoomKeeper
+    }
+
+    public void addBottomPanel(){
+        bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+	bottomPanel.add(quit);//adds a quit button on the panel located at the bottom of the frame
+	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+	bottomPanel.add(ZoomIn);
+	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+	bottomPanel.add(ZoomOut);
     }
 
     public void setNewPanel(){

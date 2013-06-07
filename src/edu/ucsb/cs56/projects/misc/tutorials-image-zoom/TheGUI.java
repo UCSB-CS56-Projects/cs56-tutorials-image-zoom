@@ -27,7 +27,7 @@ import java.awt.Rectangle;
 public class TheGUI{
     //declare the panels and buttons to be accessed from multiple methods  
 
-    JFrame frame            =      new JFrame("UCSB Campus Map");//main frame
+    JFrame frame            =      new JFrame("Image Zoom Demonstration");//main frame
     JPanel thePanel         =      new JPanel();//Back homescreen panel
     JPanel newPanel         =      new JPanel();// New panel when button is clicked
     JPanel leftPanel        =      new JPanel();//Left homescreen panel
@@ -57,16 +57,16 @@ public class TheGUI{
 
     public void setUpDisplay() throws IOException{
 
-	newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Harold Frank Hall
-	newPanel.setLayout(new BorderLayout());//sets the new panel to a BoxLayout
+	newPanel.setBackground(Color.WHITE);//creates new panel for the sample image
+	newPanel.setLayout(new BorderLayout());//sets the new panel to a BorderLayout
 	newPanel.setSize(1000,600);//sets the size of new panel
         bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
+	bottomPanel.add(quit);//adds a quit button on the panel located at the bottom of the frame
 
 	//	newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Harold Frank Hall
 	topPanel.add(HFHLabel);//adds the label to the top panel
-	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button
-	java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");//getClass().getResource loads the HFH.jpg image, which has a line that directs from storke to the location
+	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
+	java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");//getClass().getResource loads the example image: HFH.jpg
 	ImageIcon icon = new ImageIcon(HFH_URL);
 	JLabel HFHlabel = new JLabel(icon);//Creates a new label for the loaded image
 	newPanel.add(HFHlabel);
@@ -90,7 +90,6 @@ public class TheGUI{
 	
 //KeyPanel keyPanel = new KeyPanel(HFHlabel);
 		
-	//frame.getContentPane().add(BorderLayout.EAST, infoPanel);//puts the panel with the direction text to the right side of the frame
 	frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
 	frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
 	frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);//adds the bottom panel, or the pannel with the cancel button, to the bottom of the frame

@@ -45,12 +45,7 @@ public class TheGUI{
     int zoomHeight;
     
 
-    //building information
-    String HFHInfo =//directions to get to Harold Frank Hall from storke tower
-	"Generic instructions\n";
-
-
-    //function to set up the basic display
+    
     /**
      * Sets up the basic display which includes the image, zoom, and quit buttons
      * @exception IOException is thrown
@@ -65,11 +60,8 @@ public class TheGUI{
 	addToFrame();
     }//end setUpDisplay
     
-    /**
-     * Zooms by redrawing the image in newPanel to a different scale.
-     */
-    
-    
+  
+     //Zooms by redrawing the image in newPanel to a different scale.
     class ZoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
 	    zoomKeeper++;//increments zoomKeeper which controls the level of zoom
@@ -100,11 +92,17 @@ public class TheGUI{
 	    addToFrame();
 	}
     }
-
+    
+    /**
+     *Adds introductory header to top panel
+     */
     public void addTopPanel(){
 	topPanel.add(HFHLabel);//adds the label to the top panel
     }
 
+    /**
+     *Adds the buttons and their action listeners
+     */
     public void setButtons(){
 	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
 	ZoomIn.setPreferredSize(new Dimension(100,50));
@@ -114,11 +112,18 @@ public class TheGUI{
        	ZoomOut.setEnabled(false);
     }
 
+
+    /**
+     *Produces modified width and length for enlarged image for zoom functionality
+     */
     public void setZoomValues(){
 	zoomWidth=zoomKeeper*1500; //scales the image width based on zoomKeeper
 	zoomHeight=zoomKeeper*900;//scales the image height based on zoomKeeper
     }
 
+    /**
+     *Adds elements of bottom panel: quit, zoom-, zoom+ buttons
+     */
     public void addBottomPanel(){
         bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(quit);//adds a quit button on the panel located at the bottom of the frame
@@ -128,6 +133,9 @@ public class TheGUI{
 	bottomPanel.add(ZoomOut);
     }
 
+    /**
+     *Resets newPanel for a repaint
+     */
     public void setNewPanel(){
 	newPanel.removeAll();
 	newPanel.setBackground(Color.WHITE);//creates new panel for the sample image
@@ -135,6 +143,9 @@ public class TheGUI{
 	newPanel.setSize(1000,600);//sets the size of new panel
     }
 
+    /**
+     *loads the demo-image (HFH.jpeg) into HFHlabel
+     */
     public void setHFHlabel(){
 	java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
 	ImageIcon icon = new ImageIcon(HFH_URL);
@@ -156,6 +167,10 @@ public class TheGUI{
 	    //newPanel = new NewPanel(HFHlabel);
 	}
     }
+
+    /**
+     *Adds contents to frame
+     */
     public void addToFrame(){
 	frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
 	frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
@@ -165,100 +180,99 @@ public class TheGUI{
 	frame.setVisible(true);//enables us to see the frame
     }
 	
-    /*
-    class NewPanel extends JPanel implements KeyListener{
-	BufferedImage image;
-	private int x = 0;
-	private int y = 0;
+    /* Code to implement panning that doesn't work. Left here for future progress.
+       class NewPanel extends JPanel implements KeyListener{
+       BufferedImage image;
+       private int x = 0;
+       private int y = 0;
 
-	public NewPanel(JLabel label){
-	    this.removeAll();
-	    this.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
-	    this.setBackground(Color.WHITE);
-	    this.setSize(1000,600);
-	    Icon icon = label.getIcon();
-       	    image = new BufferedImage(icon.getIconWidth(),icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
-	    this.addKeyListener(this);
-	    setFocusable(true);
-	    setFocusTraversalKeysEnabled(false);
-	}
+       public NewPanel(JLabel label){
+       this.removeAll();
+       this.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
+       this.setBackground(Color.WHITE);
+       this.setSize(1000,600);
+       Icon icon = label.getIcon();
+       image = new BufferedImage(icon.getIconWidth(),icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+       this.addKeyListener(this);
+       setFocusable(true);
+       setFocusTraversalKeysEnabled(false);
+       }
 	
-	public void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(image,x,y,this);
-	}
+       public void paintComponent(Graphics g)
+       {
+       super.paintComponent(g);
+       Graphics2D g2d = (Graphics2D) g;
+       g2d.drawImage(image,x,y,this);
+       }
  
-	public void keyPressed(KeyEvent key)
-	{
-	    switch (key.getKeyCode())
-		{
-		case KeyEvent.VK_RIGHT:
-		    x++;System.out.println("RIGHT");  //debugging output statement
-		    break;
-		case KeyEvent.VK_LEFT:
-		    x--;System.out.println("LEFT");
-		    break;
-		case KeyEvent.VK_DOWN:
-		    y++;System.out.println("DOWN");
-		    break;
-		case KeyEvent.VK_UP:
-		    y--;System.out.println("UP");
-		    break;
-		}
-	    this.repaint();
-	}
-	public void keyReleased(KeyEvent key){} // keylistener
-	public void keyTyped(KeyEvent key){}    // is abstract
-    }
+       public void keyPressed(KeyEvent key)
+       {
+       switch (key.getKeyCode())
+       {
+       case KeyEvent.VK_RIGHT:
+       x++;System.out.println("RIGHT");  //debugging output statement
+       break;
+       case KeyEvent.VK_LEFT:
+       x--;System.out.println("LEFT");
+       break;
+       case KeyEvent.VK_DOWN:
+       y++;System.out.println("DOWN");
+       break;
+       case KeyEvent.VK_UP:
+       y--;System.out.println("UP");
+       break;
+       }
+       this.repaint();
+       }
+       public void keyReleased(KeyEvent key){} // keylistener
+       public void keyTyped(KeyEvent key){}    // is abstract
+       }
     */
     /*
-    class KeyPanel extends JPanel implements KeyListener{
-	BufferedImage image;
-	private int x = 0;
-	private int y = 0;
-	public KeyPanel(JLabel label){
-	    Icon icon = label.getIcon();
-       	    image = new BufferedImage(icon.getIconWidth(),icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
-	    this.addKeyListener(this);
-	    setFocusable(true);
-	    setFocusTraversalKeysEnabled(false);
-	}
+      class KeyPanel extends JPanel implements KeyListener{
+      BufferedImage image;
+      private int x = 0;
+      private int y = 0;
+      public KeyPanel(JLabel label){
+      Icon icon = label.getIcon();
+      image = new BufferedImage(icon.getIconWidth(),icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+      this.addKeyListener(this);
+      setFocusable(true);
+      setFocusTraversalKeysEnabled(false);
+      }
 	
-	public void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(image,null,x,y);
-	}
+      public void paintComponent(Graphics g)
+      {
+      super.paintComponent(g);
+      Graphics2D g2d = (Graphics2D) g;
+      g2d.drawImage(image,null,x,y);
+      }
  
-	public void keyPressed(KeyEvent key)
-	{
-	    switch (key.getKeyCode())
-		{
-		case KeyEvent.VK_RIGHT:
-		    x++;System.out.println("RIGHT");  //debugging output statement
-		    break;
-		case KeyEvent.VK_LEFT:
-		    x--;System.out.println("LEFT");
-		    break;
-		case KeyEvent.VK_DOWN:
-		    y++;System.out.println("DOWN");
-		    break;
-		case KeyEvent.VK_UP:
-		    y--;System.out.println("UP");
-		    break;
-		}
-	    this.repaint();
-	}
-	public void keyReleased(KeyEvent key){} // keylistener
-	public void keyTyped(KeyEvent key){}    // is abstract
-    }
-*/
-    /**
-     * Quit button action listener. Exits on-click.
-     */
+      public void keyPressed(KeyEvent key)
+      {
+      switch (key.getKeyCode())
+      {
+      case KeyEvent.VK_RIGHT:
+      x++;System.out.println("RIGHT");  //debugging output statement
+      break;
+      case KeyEvent.VK_LEFT:
+      x--;System.out.println("LEFT");
+      break;
+      case KeyEvent.VK_DOWN:
+      y++;System.out.println("DOWN");
+      break;
+      case KeyEvent.VK_UP:
+      y--;System.out.println("UP");
+      break;
+      }
+      this.repaint();
+      }
+      public void keyReleased(KeyEvent key){} // keylistener
+      public void keyTyped(KeyEvent key){}    // is abstract
+      }
+    */
+    
+    // Quit button action listener. Exits on-click.
     class QuitActionListener implements ActionListener{//the action listener when the quit button is pressed
 	public void actionPerformed(ActionEvent event){//the action that is performed after pressing quit
 	    System.exit(0);

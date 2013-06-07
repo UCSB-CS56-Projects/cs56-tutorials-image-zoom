@@ -28,8 +28,8 @@ public class TheGUI{
     //declare the panels and buttons to be accessed from multiple methods  
 
     JFrame frame            =      new JFrame("Image Zoom Demonstration");//main frame
-    //JPanel newPanel         =      new JPanel();// New panel when button is clicked
-    NewPanel newPanel = null;
+    JPanel newPanel         =      new JPanel();// New panel when button is clicked
+    //NewPanel newPanel = null;
     JPanel bottomPanel      =      new JPanel();//Bottom subpanels
     JPanel topPanel         =      new JPanel();//Top subpanels
     JButton quit            =      new JButton("Quit");//cancel button for subscreens
@@ -154,8 +154,8 @@ public class TheGUI{
 	if(zoomKeeper == 0){
 	    HFHlabel = new JLabel(icon);
 	    HFHlabel.setSize(new Dimension(1500,900));
-	    //newPanel.add(HFHlabel);
-	    newPanel = new NewPanel(HFHlabel);
+	    newPanel.add(HFHlabel);
+	    //newPanel = new NewPanel(HFHlabel);
 	}
 	else{
 	    Image image = icon.getImage();
@@ -163,8 +163,8 @@ public class TheGUI{
 	    ImageIcon finalIcon = new ImageIcon(ZoomedOut);
 	    HFHlabel = new JLabel(finalIcon);
 	    HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
-	    //newPanel.add(HFHlabel);
-	    newPanel = new NewPanel(HFHlabel);
+	    newPanel.add(HFHlabel);
+	    //newPanel = new NewPanel(HFHlabel);
 	}
     }
 

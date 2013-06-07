@@ -39,7 +39,7 @@ public class TheGUI{
     JButton ZoomIn          =      new JButton("Zoom +");
     JButton ZoomOut         =      new JButton("Zoom -");
  
-    JLabel HFHLabel         =      new JLabel("HFH - Harold Frank Hall");
+    JLabel HFHLabel         =      new JLabel("Image zoom demonstration - HFH");
     int zoomKeeper = 0; //keeps track of the level of zoom. Zoom in and out then either zoom farther in by incrementing 1 or decrementing 1
 
     
@@ -58,26 +58,20 @@ public class TheGUI{
     public void setUpDisplay() throws IOException{
 
 	newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Harold Frank Hall
-	newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));//sets the new panel to a BoxLayout
-	newPanel.setSize(800,625);//sets the size of new panel
-
-	JTextArea HFHTA = new JTextArea(HFHInfo);//creates a new space for text for directions
-	HFHTA.setEditable(false);//makes the new text area NOT editable
-	HFHTA.setLineWrap(true);//allows the lines to go to the next line if the current on is full
-	HFHTA.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
-	JScrollPane HFHScroll = new JScrollPane(HFHTA);//creates a new scrollable widget
-	HFHScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
-	HFHTA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
-	infoPanel.add(HFHScroll);//adds the scrolling
+	newPanel.setLayout(new BorderLayout());//sets the new panel to a BoxLayout
+	newPanel.setSize(1000,600);//sets the size of new panel
         bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(quit);//adds a cancel button on the panel located at the bottom of the frame
 
-	newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Harold Frank Hall
+	//	newPanel.add(bottomPanel);//adds the bottom panel onto the new panel that has the directions to Harold Frank Hall
 	topPanel.add(HFHLabel);//adds the label to the top panel
 	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the Cancel button
 	java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");//getClass().getResource loads the HFH.jpg image, which has a line that directs from storke to the location
 	ImageIcon icon = new ImageIcon(HFH_URL);
 	JLabel HFHlabel = new JLabel(icon);//Creates a new label for the loaded image
+	newPanel.add(HFHlabel);
+
+
 	ZoomIn.setPreferredSize(new Dimension(100,50));
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(ZoomIn);
@@ -89,19 +83,21 @@ public class TheGUI{
 	ZoomOut.addActionListener(new ZoomOutActionListener());
        	ZoomOut.setEnabled(false);
 
-	newPanel.setMaximumSize(new Dimension(200,200));
+	//newPanel.setMaximumSize(new Dimension(200,200));
 	
-	//KeyPanel keyPanel = new KeyPanel(HFHlabel);
-	newPanel.add(HFHlabel);
-	frame.getContentPane().add(BorderLayout.EAST, infoPanel);//puts the panel with the direction text to the right side of the frame
+	//	newPanel.setFocusable(true);
+	//newPanel.requestFocusInWindow();
+	
+//KeyPanel keyPanel = new KeyPanel(HFHlabel);
+		
+	//frame.getContentPane().add(BorderLayout.EAST, infoPanel);//puts the panel with the direction text to the right side of the frame
 	frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
 	frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
 	frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);//adds the bottom panel, or the pannel with the cancel button, to the bottom of the frame
 	frame.setSize(1000,625);//sets the size of the frame 
 	frame.setBackground(Color.WHITE);//sets the background color of the frame to white
 	frame.setVisible(true);//enables us to see the frame
-
-    }//end setUpHomeScreen
+    }//end setUpDisplay
     
     /**
      * Zooms by redrawing the image in newPanel to a different scale.
@@ -119,8 +115,8 @@ public class TheGUI{
 	    newPanel.removeAll();
 	    newPanel.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
 	    newPanel.setBackground(Color.WHITE);
-	    newPanel.setSize(1500,900);
-	    newPanel.add(bottomPanel);
+	    newPanel.setSize(1000,600);
+	    //newPanel.add(bottomPanel); commented out 1:16
 	    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
 	    ImageIcon icon = new ImageIcon(HFH_URL);
 	    Image image = icon.getImage();
@@ -151,8 +147,8 @@ public class TheGUI{
 	    newPanel.removeAll();
 	    newPanel.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
 	    newPanel.setBackground(Color.WHITE);
-	    newPanel.setSize(1500,900);
-	    newPanel.add(bottomPanel);
+	    newPanel.setSize(100,600);
+	    // newPanel.add(bottomPanel); commented out 1:16
 	    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
 	    ImageIcon icon = new ImageIcon(HFH_URL);
 	    if(zoomKeeper == 0){

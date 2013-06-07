@@ -41,7 +41,8 @@ public class TheGUI{
  
     JLabel HFHLabel         =      new JLabel("Image zoom demonstration - HFH");
     int zoomKeeper = 0; //keeps track of the level of zoom. Zoom in and out then either zoom farther in by incrementing 1 or decrementing 1
-
+    int zoomWidth;
+    int zoomHeight;
     
 
     //building information
@@ -56,37 +57,23 @@ public class TheGUI{
      */
 
     public void setUpDisplay() throws IOException{
-	newPanel.setBackground(Color.WHITE);//creates new panel for the sample image
-	newPanel.setLayout(new BorderLayout());//sets the new panel to a BorderLayout
-	newPanel.setSize(1000,600);//sets the size of new panel
-        bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(quit);//adds a quit button on the panel located at the bottom of the frame
 	topPanel.add(HFHLabel);//adds the label to the top panel
 	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
-
-	java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");//getClass().getResource loads the example image: HFH.jpg
-	ImageIcon icon = new ImageIcon(HFH_URL);
-	JLabel HFHlabel = new JLabel(icon);//Creates a new label for the loaded image
-
-	//NewPanel newPanel = new NewPanel(HFHlabel);
-	newPanel.add(HFHlabel);
-
 	ZoomIn.setPreferredSize(new Dimension(100,50));
-	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(ZoomIn);
 	ZoomIn.addActionListener(new ZoomInActionListener());
 	ZoomOut.setPreferredSize(new Dimension(100,50));
-	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(ZoomOut);
 	ZoomOut.addActionListener(new ZoomOutActionListener());
        	ZoomOut.setEnabled(false);
+        bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+	bottomPanel.add(quit);//adds a quit button on the panel located at the bottom of the frame
+	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+	bottomPanel.add(ZoomIn);
+	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+	bottomPanel.add(ZoomOut);
 
-	frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
-	frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
-	frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);//adds the bottom panel, or the pannel with the cancel button, to the bottom of the frame
-	frame.setSize(1000,625);//sets the size of the frame 
-	frame.setBackground(Color.WHITE);//sets the background color of the frame to white
-	frame.setVisible(true);//enables us to see the frame
+	setNewPanel();
+	setHFHlabel();
+	addToFrame();
     }//end setUpDisplay
     
     /**
@@ -100,29 +87,12 @@ public class TheGUI{
        	    if(zoomKeeper == 5)
 		ZoomIn.setEnabled(false);
 	    ZoomOut.setEnabled(true);//enables the zoomout key after the initial zoom. Zooming out in a picture that hasn't been zoomed in on would be pointless.
-	    int zoomWidth=zoomKeeper*1500; //scales the image width based on zoomKeeper
-	    int zoomHeight=zoomKeeper*900;//scales the image height based on zoomKeeper
-	    newPanel.removeAll();
-	    newPanel.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
-	    newPanel.setBackground(Color.WHITE);
-	    newPanel.setSize(1000,600);
+	    zoomWidth=zoomKeeper*1500; //scales the image width based on zoomKeeper
+	    zoomHeight=zoomKeeper*900;//scales the image height based on zoomKeeper
 
-	    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
-	    ImageIcon icon = new ImageIcon(HFH_URL);
-	    Image image = icon.getImage();
-	    Image ZoomedIn = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
-	    ImageIcon finalIcon = new ImageIcon(ZoomedIn);
-	    JLabel HFHlabel = new JLabel(finalIcon);
-	    HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
-
-	    //KeyPanel zoomInKeyPanel = new KeyPanel(HFHlabel);
-	    newPanel.add(HFHlabel);
-	    //NewPanel newPanel = new NewPanel(HFHlabel);
-	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
-	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
-	    frame.setSize(1000,625);
-	    frame.setBackground(Color.WHITE);
-	    frame.setVisible(true);
+	    setNewPanel();
+	    setHFHlabel();
+	    addToFrame();
 	}
     }
 
@@ -135,40 +105,53 @@ public class TheGUI{
 		ZoomOut.setEnabled(false);
 	    else if(zoomKeeper > 1)
 		ZoomOut.setEnabled(true);
-	    int zoomWidth=zoomKeeper*1500; //scales the image based on zoomKeeper
-	    int zoomHeight=zoomKeeper*900;
-	    newPanel.removeAll();
-	    newPanel.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
-	    newPanel.setBackground(Color.WHITE);
-	    newPanel.setSize(100,600);
+	    zoomWidth=zoomKeeper*1500; //scales the image based on zoomKeeper
+	    zoomHeight=zoomKeeper*900;
 
-	    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
-	    ImageIcon icon = new ImageIcon(HFH_URL);
-	    if(zoomKeeper == 0){
-		JLabel HFHlabel2 = new JLabel(icon);
-		HFHlabel2.setSize(new Dimension(1500,900));
-		//KeyPanel zoomOutKeyPanel = new KeyPanel(HFHlabel2);
-		newPanel.add(HFHlabel2);
-		//newPanel = new NewPanel(HFHlabel2);
-	    }
-	    else{
-		Image image = icon.getImage();
-		Image ZoomedOut = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
-		ImageIcon finalIcon = new ImageIcon(ZoomedOut);
-		JLabel HFHlabel = new JLabel(finalIcon);
-		HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
-		//KeyPanel zoomOutKeyPanel = new KeyPanel(HFHlabel);
-		newPanel.add(HFHlabel);
-		//newPanel = new NewPanel(HFHlabel);
-	    }
-	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
-	    frame.getContentPane().add(BorderLayout.SOUTH,bottomPanel);
-	    frame.setSize(1000,625);
-	    frame.setBackground(Color.WHITE);
-	    frame.setVisible(true);
+	    setNewPanel();
+	    setHFHlabel();
+	    addToFrame();
 	}
     }
 
+    public void setNewPanel(){
+	newPanel.removeAll();
+	newPanel.setBackground(Color.WHITE);//creates new panel for the sample image
+	newPanel.setLayout(new BorderLayout());//sets the new panel to a BorderLayout
+	newPanel.setSize(1000,600);//sets the size of new panel
+    }
+
+    public void setHFHlabel(){
+	java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
+	ImageIcon icon = new ImageIcon(HFH_URL);
+	if(zoomKeeper == 0){
+	    JLabel HFHlabel2 = new JLabel(icon);
+	    HFHlabel2.setSize(new Dimension(1500,900));
+	    //KeyPanel zoomOutKeyPanel = new KeyPanel(HFHlabel2);
+	    newPanel.add(HFHlabel2);
+	    //newPanel = new NewPanel(HFHlabel2);
+	}
+	else{
+	    Image image = icon.getImage();
+	    Image ZoomedOut = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
+	    ImageIcon finalIcon = new ImageIcon(ZoomedOut);
+	    JLabel HFHlabel = new JLabel(finalIcon);
+	    HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
+	    //KeyPanel zoomOutKeyPanel = new KeyPanel(HFHlabel);
+	    newPanel.add(HFHlabel);
+	    //newPanel = new NewPanel(HFHlabel);
+	}
+    }
+    public void addToFrame(){
+	frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
+	frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
+	frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);//adds the bottom panel, or the pannel with the cancel button, to the bottom of the frame
+	frame.setSize(1000,625);//sets the size of the frame 
+	frame.setBackground(Color.WHITE);//sets the background color of the frame to white
+	frame.setVisible(true);//enables us to see the frame
+    }
+	
+    /*
     class NewPanel extends JPanel implements KeyListener{
 	BufferedImage image;
 	private int x = 0;
@@ -215,7 +198,7 @@ public class TheGUI{
 	public void keyReleased(KeyEvent key){} // keylistener
 	public void keyTyped(KeyEvent key){}    // is abstract
     }
-
+    */
     /*
     class KeyPanel extends JPanel implements KeyListener{
 	BufferedImage image;

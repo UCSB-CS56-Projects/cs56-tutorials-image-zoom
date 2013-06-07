@@ -2,6 +2,7 @@ package edu.ucsb.cs56.projects.misc.map_gui;
 import java.awt.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -14,8 +15,7 @@ import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Point;  
 import java.awt.Rectangle; 
-import java.awt.event.MouseAdapter;  
-import java.awt.event.MouseEvent;
+
 /**
  * TheGUI class creates the interface using swing for the image GUI
  * @author Aki Stankoski and Dennis Huynh
@@ -54,6 +54,7 @@ public class TheGUI{
      * Sets up the basic display which includes the image, zoom, and quit buttons
      * @exception IOException is thrown
      */
+
     public void setUpDisplay() throws IOException{
 
 	newPanel.setBackground(Color.WHITE);//creates new panel for the directions to Harold Frank Hall
@@ -77,7 +78,6 @@ public class TheGUI{
 	java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");//getClass().getResource loads the HFH.jpg image, which has a line that directs from storke to the location
 	ImageIcon icon = new ImageIcon(HFH_URL);
 	JLabel HFHlabel = new JLabel(icon);//Creates a new label for the loaded image
-	
 	ZoomIn.setPreferredSize(new Dimension(100,50));
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(ZoomIn);
@@ -91,15 +91,13 @@ public class TheGUI{
 
 	newPanel.setMaximumSize(new Dimension(200,200));
 	
-	newPanel.add(HFHlabel);//adds the image label onto the new panel
+	//KeyPanel keyPanel = new KeyPanel(HFHlabel);
+	newPanel.add(HFHlabel);
 	frame.getContentPane().add(BorderLayout.EAST, infoPanel);//puts the panel with the direction text to the right side of the frame
 	frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
 	frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
 	frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);//adds the bottom panel, or the pannel with the cancel button, to the bottom of the frame
 	frame.setSize(1000,625);//sets the size of the frame 
-	
-
-
 	frame.setBackground(Color.WHITE);//sets the background color of the frame to white
 	frame.setVisible(true);//enables us to see the frame
 
@@ -129,9 +127,9 @@ public class TheGUI{
 	    Image ZoomedIn = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
 	    ImageIcon finalIcon = new ImageIcon(ZoomedIn);
 	    JLabel HFHlabel = new JLabel(finalIcon);
-	    HFHlabel.setLocation(-750,-450);
 	    HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
-	    newPanel.add(HFHlabel);//adds the image label onto the new panel	    	   
+	    //KeyPanel zoomInKeyPanel = new KeyPanel(HFHlabel);
+	    newPanel.add(HFHlabel);
 	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
 	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
 	    frame.setSize(1000,625);
@@ -158,26 +156,68 @@ public class TheGUI{
 	    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
 	    ImageIcon icon = new ImageIcon(HFH_URL);
 	    if(zoomKeeper == 0){
-	    JLabel HFHlabel2 = new JLabel(icon);
-	    HFHlabel2.setLocation(-750, -450);
-	    HFHlabel2.setSize(new Dimension(1500,900));
-	    newPanel.add(HFHlabel2);
+		JLabel HFHlabel2 = new JLabel(icon);
+		HFHlabel2.setSize(new Dimension(1500,900));
+		//KeyPanel zoomOutKeyPanel = new KeyPanel(HFHlabel2);
+		newPanel.add(HFHlabel2);
 	    }
 	    else{
-       	    Image image = icon.getImage();
-	    Image ZoomedOut = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
-	    ImageIcon finalIcon = new ImageIcon(ZoomedOut);
-	    JLabel HFHlabel = new JLabel(finalIcon);
-	    HFHlabel.setLocation(-750,-450);
-	    HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
-	    newPanel.add(HFHlabel);//adds the image label onto the new panel	    
+		Image image = icon.getImage();
+		Image ZoomedOut = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
+		ImageIcon finalIcon = new ImageIcon(ZoomedOut);
+		JLabel HFHlabel = new JLabel(finalIcon);
+		HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
+		//KeyPanel zoomOutKeyPanel = new KeyPanel(HFHlabel);
+		newPanel.add(HFHlabel);
 	    }
 	    frame.getContentPane().add(BorderLayout.CENTER,newPanel);
-	    frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
+	    frame.getContentPane().add(BorderLayout.SOUTH,bottomPanel);
 	    frame.setSize(1000,625);
 	    frame.setBackground(Color.WHITE);
 	    frame.setVisible(true);
 	}
+    }
+
+    class KeyPanel extends JPanel implements KeyListener{
+	BufferedImage image;
+	private int x = 0;
+	private int y = 0;
+	public KeyPanel(JLabel label){
+	    Icon icon = label.getIcon();
+       	    image = new BufferedImage(icon.getIconWidth(),icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+	    this.addKeyListener(this);
+	    setFocusable(true);
+	    setFocusTraversalKeysEnabled(false);
+	}
+	
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.drawImage(image,null,x,y);
+	}
+ 
+	public void keyPressed(KeyEvent key)
+	{
+	    switch (key.getKeyCode())
+		{
+		case KeyEvent.VK_RIGHT:
+		    x++;System.out.println("RIGHT");  //debugging output statement
+		    break;
+		case KeyEvent.VK_LEFT:
+		    x--;System.out.println("LEFT");
+		    break;
+		case KeyEvent.VK_DOWN:
+		    y++;System.out.println("DOWN");
+		    break;
+		case KeyEvent.VK_UP:
+		    y--;System.out.println("UP");
+		    break;
+		}
+	    this.repaint();
+	}
+	public void keyReleased(KeyEvent key){} // keylistener
+	public void keyTyped(KeyEvent key){}    // is abstract
     }
 
     /**

@@ -30,6 +30,7 @@ public class TheGUI{
     JFrame frame            =      new JFrame("Image Zoom Demonstration");//main frame
     JPanel bottomPanel      =      new JPanel();//Bottom subpanels
     JPanel topPanel         =      new JPanel();//Top subpanels
+    JPanel infoPanel = new JPanel();
     JButton quit            =      new JButton("Quit");//cancel button for subscreens
     JButton ZoomIn          =      new JButton("Zoom +");
     JButton ZoomOut         =      new JButton("Zoom -");
@@ -102,6 +103,17 @@ public class TheGUI{
 	topPanel.add(HFHDefaultLabel);//adds the label to the top panel
     }
 
+    public void setText(){
+	JTextArea HFHTA = new JTextArea(HFHInfo);//creates a new space for text for directions
+	HFHTA.setEditable(false);//makes the new text area NOT editable
+	HFHTA.setLineWrap(true);//allows the lines to go to the next line if the current on is full
+	HFHTA.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
+	JScrollPane HFHScroll = new JScrollPane(HFHTA);//creates a new scrollable widget
+	HFHScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
+	HFHTA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
+	infoPanel.add(HFHScroll);//adds the scrolling
+    }
+
     /**
      *Adds the buttons and their action listeners
      */
@@ -172,6 +184,7 @@ public class TheGUI{
      */
     public void addToFrame(){
 	frame.getContentPane().add(BorderLayout.NORTH, topPanel);//adds the top panel including the label to the top of the frame
+	frame.getContentPane().add(BorderLayout.EAST, infoPanel);
 	frame.getContentPane().add(BorderLayout.CENTER,newPanel);//adds the new panel on the center of the frame
 	frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);//adds the bottom panel, or the pannel with the cancel button, to the bottom of the frame
 	frame.setSize(1000,625);//sets the size of the frame 

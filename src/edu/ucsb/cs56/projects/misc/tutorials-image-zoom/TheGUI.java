@@ -44,6 +44,7 @@ public class TheGUI{
     NewPanel newPanel = null;
     JLabel HFHlabel = new JLabel(icon);
 
+    String HFHInfo = "Directions for zooming:\n 1.First zoom to desired magnification\n 2. Then press arrow keys to pan image.";
     /**
      * Sets up the basic display which includes the image, zoom, and quit buttons
      * @exception IOException is thrown
@@ -55,6 +56,7 @@ public class TheGUI{
 	newPanel = new NewPanel();
 	newPanel.addKeyListener(newPanel);
 	addTopPanel();
+	setText();
 	setButtons();
 	addBottomPanel();
 	setNewPanel();
@@ -222,21 +224,24 @@ public class TheGUI{
 	
 	public void keyPressed(KeyEvent key)
 	{
-	    switch (key.getKeyCode())
-		{
-		case KeyEvent.VK_RIGHT:
-		    x = x - 10;
-		    break;
-		case KeyEvent.VK_LEFT:
-		    x = x + 10;
-		    break;
-		case KeyEvent.VK_DOWN:
-		    y = y - 10;
-		    break;
-		case KeyEvent.VK_UP:
-		    y = y + 10;
-		    break;
-		}
+	    if(zoomKeeper == 0){}
+	    else{
+		switch (key.getKeyCode())
+		    {
+		    case KeyEvent.VK_RIGHT:
+			x = x - 10;
+			break;
+		    case KeyEvent.VK_LEFT:
+			x = x + 10;
+			break;
+		    case KeyEvent.VK_DOWN:
+			y = y - 10;
+			break;
+		    case KeyEvent.VK_UP:
+			y = y + 10;
+			break;
+		    }
+	    }
 	    this.repaint();
 	}
 	public void keyReleased(KeyEvent key){} // keylistener

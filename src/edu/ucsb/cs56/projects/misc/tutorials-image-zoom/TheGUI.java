@@ -28,27 +28,31 @@ public class TheGUI{
     //declare the panels and buttons to be accessed from multiple methods  
 
     JFrame frame            =      new JFrame("Image Zoom Demonstration");//main frame
-    JPanel newPanel         =      new JPanel();// New panel when button is clicked
-    //NewPanel newPanel = null;
     JPanel bottomPanel      =      new JPanel();//Bottom subpanels
     JPanel topPanel         =      new JPanel();//Top subpanels
     JButton quit            =      new JButton("Quit");//cancel button for subscreens
     JButton ZoomIn          =      new JButton("Zoom +");
     JButton ZoomOut         =      new JButton("Zoom -");
- 
-    JLabel HFHLabel         =      new JLabel("Image zoom demonstration - HFH");
+    JLabel HFHDefaultLabel         =      new JLabel("Image zoom demonstration - HFH");
     int zoomKeeper = 0; //keeps track of the level of zoom. Zoom in and out then either zoom farther in by incrementing 1 or decrementing 1
     int zoomWidth;
     int zoomHeight;
-    
+    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
+    ImageIcon icon = new ImageIcon(HFH_URL);
+    ImageIcon defaultIcon = new ImageIcon(HFH_URL);
+    NewPanel newPanel = null;
+    JLabel HFHlabel = new JLabel(icon);
 
-    
     /**
      * Sets up the basic display which includes the image, zoom, and quit buttons
      * @exception IOException is thrown
      */
 
-    public void setUpDisplay() throws IOException{
+    public void setUpDisplay() throws IOException{   
+	
+	HFHlabel.setSize(new Dimension(1500,900));
+	newPanel = new NewPanel();
+	newPanel.addKeyListener(newPanel);
 	addTopPanel();
 	setButtons();
 	addBottomPanel();
@@ -61,12 +65,10 @@ public class TheGUI{
      //Zooms by redrawing the image in newPanel to a different scale.
     class ZoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
-
 	    zoomKeeper++;//increments zoomKeeper which controls the level of zoom
 	    ZoomOut.setEnabled(true);//enables the zoomout key after the initial zoom. Zooming out in a picture that hasn't been zoomed in on would be pointless.
        	    if(zoomKeeper == 5)
 		ZoomIn.setEnabled(false);
-
 	    setZoomValues();
 	    setNewPanel();
 	    setHFHlabel();
@@ -76,14 +78,16 @@ public class TheGUI{
 
     class ZoomOutActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
-	    NewPanel newPanel;
 	    zoomKeeper--;
       	    ZoomIn.setEnabled(true);
-	    if(zoomKeeper == 0)
+	    if(zoomKeeper == 0){
 		ZoomOut.setEnabled(false);
+		newPanel.setX(0);
+		newPanel.setY(0);
+		System.out.println("actionlistener" + zoomKeeper);
+	    }
 	    else if(zoomKeeper > 1)
 		ZoomOut.setEnabled(true);
-
 	    setZoomValues();
 	    setNewPanel();
 	    setHFHlabel();
@@ -95,7 +99,7 @@ public class TheGUI{
      *Adds introductory header to top panel
      */
     public void addTopPanel(){
-	topPanel.add(HFHLabel);//adds the label to the top panel
+	topPanel.add(HFHDefaultLabel);//adds the label to the top panel
     }
 
     /**
@@ -147,24 +151,19 @@ public class TheGUI{
      *loads the demo-image (HFH.jpeg) into HFHlabel
      */
     public void setHFHlabel(){
-	java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
-	ImageIcon icon = new ImageIcon(HFH_URL);
-	JLabel HFHlabel;
-
+	newPanel.remove(HFHlabel);
 	if(zoomKeeper == 0){
+	    Image image = defaultIcon.getImage();
+	    icon = new ImageIcon(image);
 	    HFHlabel = new JLabel(icon);
 	    HFHlabel.setSize(new Dimension(1500,900));
-	    newPanel.add(HFHlabel);
-	    //newPanel = new NewPanel(HFHlabel);
 	}
 	else{
 	    Image image = icon.getImage();
-	    Image ZoomedOut = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
-	    ImageIcon finalIcon = new ImageIcon(ZoomedOut);
-	    HFHlabel = new JLabel(finalIcon);
+	    Image Zoomed = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
+	    icon = new ImageIcon(Zoomed);
+	    HFHlabel = new JLabel(icon);
 	    HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
-	    newPanel.add(HFHlabel);
-	    //newPanel = new NewPanel(HFHlabel);
 	}
     }
 
@@ -182,28 +181,30 @@ public class TheGUI{
 	
     //Code to implement panning that doesn't work. Left here for future progress.
     class NewPanel extends JPanel implements KeyListener{
-	BufferedImage image;
-	private int x = 0;
-	private int y = 0;
+	private int x;
+	private int y;
 	
-
-	public NewPanel(JLabel label){
+	public NewPanel(){
 	    this.removeAll();
 	    this.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
 	    this.setBackground(Color.WHITE);
 	    this.setSize(1000,600);
-	    Icon icon = label.getIcon();
-	    image = new BufferedImage(icon.getIconWidth(),icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
-	    this.addKeyListener(this);
 	    setFocusable(true);
 	    setFocusTraversalKeysEnabled(false);
 	}
 	
+	public void setX(int x){
+	    this.x = x;
+	}
+	public void setY(int y){
+	    this.y = y;
+	}
+
 	public void paintComponent(Graphics g)
 	{
 	    super.paintComponent(g);
 	    Graphics2D g2d = (Graphics2D) g;
-	    g2d.drawImage(image,x,y,this);
+	    g2d.drawImage(icon.getImage(),x,y,this);
 	}
 	
 	public void keyPressed(KeyEvent key)
@@ -211,16 +212,16 @@ public class TheGUI{
 	    switch (key.getKeyCode())
 		{
 		case KeyEvent.VK_RIGHT:
-		    x++;System.out.println("RIGHT");  //debugging output statement
+		    x = x - 10;
 		    break;
 		case KeyEvent.VK_LEFT:
-		    x--;System.out.println("LEFT");
+		    x = x + 10;
 		    break;
 		case KeyEvent.VK_DOWN:
-		    y++;System.out.println("DOWN");
+		    y = y - 10;
 		    break;
 		case KeyEvent.VK_UP:
-		    y--;System.out.println("UP");
+		    y = y + 10;
 		    break;
 		}
 	    this.repaint();
@@ -229,7 +230,6 @@ public class TheGUI{
 	public void keyTyped(KeyEvent key){}    // is abstract
     }
     
-    
     // Quit button action listener. Exits on-click.
     class QuitActionListener implements ActionListener{//the action listener when the quit button is pressed
 	public void actionPerformed(ActionEvent event){//the action that is performed after pressing quit
@@ -237,9 +237,6 @@ public class TheGUI{
 	    
 	}
     }//end CancelActionListener
-
-
-    
     
 } //end class
 

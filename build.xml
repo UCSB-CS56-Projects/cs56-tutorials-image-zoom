@@ -34,6 +34,7 @@
 
   <target name="run" depends="compile,jar">
     <java classname="${packageName}.${mainClass}" classpath="dist/${projectName}.jar" fork="true" > 
+       <jvmarg value="-Xmx1024m"/> <!-- heap space -->
     </java>
   </target>
 

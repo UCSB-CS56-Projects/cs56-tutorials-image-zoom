@@ -1,4 +1,5 @@
-package edu.ucsb.cs56.projects.misc.map_gui;
+package edu.ucsb.cs56.projects.tutorials.image_zoom;
+
 import java.awt.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,7 +31,7 @@ public class TheGUI{
     JFrame frame            =      new JFrame("Image Zoom Demonstration");//main frame
     JPanel bottomPanel      =      new JPanel();//Bottom subpanels
     JPanel topPanel         =      new JPanel();//Top subpanels
-    JPanel infoPanel = new JPanel();
+    JPanel infoPanel 		= 	   new JPanel();
     JButton quit            =      new JButton("Quit");//cancel button for subscreens
     JButton ZoomIn          =      new JButton("Zoom +");
     JButton ZoomOut         =      new JButton("Zoom -");
@@ -38,13 +39,17 @@ public class TheGUI{
     int zoomKeeper = 0; //keeps track of the level of zoom. Zoom in and out then either zoom farther in by incrementing 1 or decrementing 1
     int zoomWidth;
     int zoomHeight;
-    java.net.URL HFH_URL = getClass().getResource("/HFH.jpg");
-    ImageIcon icon = new ImageIcon(HFH_URL);
-    ImageIcon defaultIcon = new ImageIcon(HFH_URL);
+
+    // hard-coded for HFH Map
+    // TODO: allow for choosing from multiple images
+    String imgPath = "images/HFH.jpg";
+    ImageIcon icon = new ImageIcon(imgPath);
+    ImageIcon defaultIcon = new ImageIcon(imgPath);
     NewPanel newPanel = null;
     JLabel HFHlabel = new JLabel(icon);
 
     String HFHInfo = "Directions for zooming:\n 1.First zoom to desired magnification\n 2. Then press arrow keys to pan image.";
+    
     /**
      * Sets up the basic display which includes the image, zoom, and quit buttons
      * @exception IOException is thrown
@@ -70,8 +75,8 @@ public class TheGUI{
 	public void actionPerformed(ActionEvent event){
 	    zoomKeeper++;//increments zoomKeeper which controls the level of zoom
 	    ZoomOut.setEnabled(true);//enables the zoomout key after the initial zoom. Zooming out in a picture that hasn't been zoomed in on would be pointless.
-       	    if(zoomKeeper == 5)
-		ZoomIn.setEnabled(false);
+       	if(zoomKeeper == 5)
+			ZoomIn.setEnabled(false);
 	    setZoomValues();
 	    setNewPanel();
 	    setHFHlabel();

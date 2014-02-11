@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.projects.misc.map_gui;
+package edu.ucsb.cs56.projects.tutorials.image_zoom;
 
 import java.io.IOException;
 

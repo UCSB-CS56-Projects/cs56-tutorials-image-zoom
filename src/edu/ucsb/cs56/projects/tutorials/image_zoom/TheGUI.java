@@ -33,23 +33,49 @@ public class TheGUI{
     JPanel topPanel         =      new JPanel();//Top subpanels
     JPanel infoPanel 		= 	   new JPanel();
     JButton quit            =      new JButton("Quit");//cancel button for subscreens
-    JButton ZoomIn          =      new JButton("Zoom +");
-    JButton ZoomOut         =      new JButton("Zoom -");
-    JLabel HFHDefaultLabel         =      new JLabel("Image zoom demonstration - HFH");
+    JButton zoomIn          =      new JButton("Zoom +");
+    JButton zoomOut         =      new JButton("Zoom -");
+    JLabel defaultLabel;
     int zoomKeeper = 0; //keeps track of the level of zoom. Zoom in and out then either zoom farther in by incrementing 1 or decrementing 1
     int zoomWidth;
     int zoomHeight;
 
-    // hard-coded for HFH Map
+
+    String imgPath;
+
+    String generalInfo = "Directions for zoomIng:\n 1.First zoom to desired magnification\n 2. Then press arrow keys to pan image.";
+
+    /**
+     * Three constructors have been create:
+     * 1.constructor with no parameter, will use "HFH" and "images/HFH.jpg" as the default name ane path
+     * 2.constructor with 1 parameter, type String as imagePath, will use "Image zoom demonstration" as defaultLabel
+     * 3.constructor with 2 parameters, both type String, first is name and second is path, name will be combine to defaultLabel and path will be imgPath
+     */
+
+    public TheGUI() {
+        defaultLabel = new JLabel("Image zoom demonstration - HFH");
+        imgPath = "images/HFH.jpg";
+    }
+
+    public TheGUI(String path) {
+        defaultLabel = new JLabel("Image zoom demonstration");
+        //TODO: do we need a checking system or throw exception in case that path is not in a right format
+        imgPath = path;
+    }
+
+    public TheGUI(String name, String path) {
+        defaultLabel = new JLabel("Image zoom demonstration - " + name);
+        //same problem with the second constructor
+        imgPath = path;
+    }
+
+    // hard-coded for Map
     // TODO: allow for choosing from multiple images
-    String imgPath = "images/HFH.jpg";
     ImageIcon icon = new ImageIcon(imgPath);
     ImageIcon defaultIcon = new ImageIcon(imgPath);
     NewPanel newPanel = null;
-    JLabel HFHlabel = new JLabel(icon);
+    JLabel mapLabel = new JLabel(icon);
 
-    String HFHInfo = "Directions for zooming:\n 1.First zoom to desired magnification\n 2. Then press arrow keys to pan image.";
-    
     /**
      * Sets up the basic display which includes the image, zoom, and quit buttons
      * @exception IOException is thrown
@@ -57,7 +83,7 @@ public class TheGUI{
 
     public void setUpDisplay() throws IOException{   
 	
-	HFHlabel.setSize(new Dimension(1500,900));
+	mapLabel.setSize(new Dimension(1500,900));
 	newPanel = new NewPanel();
 	newPanel.addKeyListener(newPanel);
 	addTopPanel();
@@ -65,40 +91,40 @@ public class TheGUI{
 	setButtons();
 	addBottomPanel();
 	setNewPanel();
-	setHFHlabel();
+	setmapLabel();
 	addToFrame();
     }//end setUpDisplay
     
   
      //Zooms by redrawing the image in newPanel to a different scale.
-    class ZoomInActionListener implements ActionListener{
+    class zoomInActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
 	    zoomKeeper++;//increments zoomKeeper which controls the level of zoom
-	    ZoomOut.setEnabled(true);//enables the zoomout key after the initial zoom. Zooming out in a picture that hasn't been zoomed in on would be pointless.
+	    zoomOut.setEnabled(true);//enables the zoomOut key after the initial zoom. zoomIng out in a picture that hasn't been zoomed in on would be pointless.
        	if(zoomKeeper == 5)
-			ZoomIn.setEnabled(false);
+			zoomIn.setEnabled(false);
 	    setZoomValues();
 	    setNewPanel();
-	    setHFHlabel();
+	    setmapLabel();
 	    addToFrame();
 	}
     }
 
-    class ZoomOutActionListener implements ActionListener{
+    class zoomOutActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent event){
 	    zoomKeeper--;
-      	    ZoomIn.setEnabled(true);
+      	    zoomIn.setEnabled(true);
 	    if(zoomKeeper == 0){
-		ZoomOut.setEnabled(false);
+		zoomOut.setEnabled(false);
 		newPanel.setX(0);
 		newPanel.setY(0);
 		System.out.println("actionlistener" + zoomKeeper);
 	    }
 	    else if(zoomKeeper > 1)
-		ZoomOut.setEnabled(true);
+		zoomOut.setEnabled(true);
 	    setZoomValues();
 	    setNewPanel();
-	    setHFHlabel();
+	    setmapLabel();
 	    addToFrame();
 	}
     }
@@ -107,18 +133,18 @@ public class TheGUI{
      *Adds introductory header to top panel
      */
     public void addTopPanel(){
-	topPanel.add(HFHDefaultLabel);//adds the label to the top panel
+	topPanel.add(defaultLabel);//adds the label to the top panel
     }
 
     public void setText(){
-	JTextArea HFHTA = new JTextArea(HFHInfo);//creates a new space for text for directions
-	HFHTA.setEditable(false);//makes the new text area NOT editable
-	HFHTA.setLineWrap(true);//allows the lines to go to the next line if the current on is full
-	HFHTA.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
-	JScrollPane HFHScroll = new JScrollPane(HFHTA);//creates a new scrollable widget
-	HFHScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
-	HFHTA.setPreferredSize(new Dimension(200,600));//sets the size of the text area
-	infoPanel.add(HFHScroll);//adds the scrolling
+	JTextArea directionsTextArea = new JTextArea(generalInfo);//creates a new space for text for directions
+	directionsTextArea.setEditable(false);//makes the new text area NOT editable
+	directionsTextArea.setLineWrap(true);//allows the lines to go to the next line if the current on is full
+	directionsTextArea.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
+	JScrollPane scroll = new JScrollPane(directionsTextArea);//creates a new scrollable widget
+	scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
+	directionsTextArea.setPreferredSize(new Dimension(200,600));//sets the size of the text area
+	infoPanel.add(scroll);//adds the scrolling
     }
 
     /**
@@ -126,11 +152,11 @@ public class TheGUI{
      */
     public void setButtons(){
 	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
-	ZoomIn.setPreferredSize(new Dimension(100,50));
-	ZoomIn.addActionListener(new ZoomInActionListener());
-	ZoomOut.setPreferredSize(new Dimension(100,50));
-	ZoomOut.addActionListener(new ZoomOutActionListener());
-       	ZoomOut.setEnabled(false);
+	zoomIn.setPreferredSize(new Dimension(100,50));
+	zoomIn.addActionListener(new zoomInActionListener());
+	zoomOut.setPreferredSize(new Dimension(100,50));
+	zoomOut.addActionListener(new zoomOutActionListener());
+       	zoomOut.setEnabled(false);
     }
 
 
@@ -149,9 +175,9 @@ public class TheGUI{
         bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(quit);//adds a quit button on the panel located at the bottom of the frame
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(ZoomIn);
+	bottomPanel.add(zoomIn);
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	bottomPanel.add(ZoomOut);
+	bottomPanel.add(zoomOut);
     }
 
     /**
@@ -167,22 +193,22 @@ public class TheGUI{
     }
 
     /**
-     *loads the demo-image (HFH.jpeg) into HFHlabel
+     *loads the demo-image (.jpeg) into mapLabel
      */
-    public void setHFHlabel(){
-	newPanel.remove(HFHlabel);
+    public void setmapLabel(){
+	newPanel.remove(mapLabel);
 	if(zoomKeeper == 0){
 	    Image image = defaultIcon.getImage();
 	    icon = new ImageIcon(image);
-	    HFHlabel = new JLabel(icon);
-	    HFHlabel.setSize(new Dimension(1500,900));
+	    mapLabel = new JLabel(icon);
+	    mapLabel.setSize(new Dimension(1500,900));
 	}
 	else{
 	    Image image = icon.getImage();
 	    Image Zoomed = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
 	    icon = new ImageIcon(Zoomed);
-	    HFHlabel = new JLabel(icon);
-	    HFHlabel.setSize(new Dimension(1500,900));//sets size of resized label
+	    mapLabel = new JLabel(icon);
+	    mapLabel.setSize(new Dimension(1500,900));//sets size of resized label
 	}
     }
 

@@ -318,8 +318,7 @@ public class TheGUI{
             this.setSize(1000,600);
             setFocusable(true);
             setFocusTraversalKeysEnabled(false);
-
-        }
+	}
 
         public void setX(int x){
             this.x = x;

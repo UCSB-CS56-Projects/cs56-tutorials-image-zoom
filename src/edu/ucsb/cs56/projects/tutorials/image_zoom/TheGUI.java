@@ -22,6 +22,7 @@ import java.awt.Rectangle;
  * TheGUI class creates the interface using swing for the image GUI
  * @author Aki Stankoski and Dennis Huynh
  * @author Spencer Pao and Bohan Lin
+ * @author Xinzhe Wang and Shuai Lang
  *
  */
 
@@ -170,9 +171,6 @@ public class TheGUI{
         quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
         zoomIn.setPreferredSize(new Dimension(100, 50));
         zoomOut.setPreferredSize(new Dimension(100,50));
-        //previous.setPreferredSize(new Dimension(100,50));
-        //next.setPreferredSize(new Dimension(100,50));
-        //load.setPreferredSize(new Dimension(100,50));
         zoomIn.addActionListener(new zoomInActionListener());
         zoomOut.addActionListener(new zoomOutActionListener());
         previous.addActionListener(new previousActionListener());
@@ -203,11 +201,8 @@ public class TheGUI{
     }
 
     public void addPreviewButtons(){
-        //previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
         previewButtonsPanel.add(previous);
-        //previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
         previewButtonsPanel.add(next);
-        //previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
         previewButtonsPanel.add(load);
     }
 
@@ -277,9 +272,6 @@ public class TheGUI{
                 } catch (final IOException e) {
                     // handle errors here
                 }
-                //ImageIcon loadIcons = new ImageIcon("build/images/"+f.getName());
-                //loadIcons.setDescription(f.getName());
-                //imageList.add(loadIcons);
             }
         }
     }
@@ -299,8 +291,6 @@ public class TheGUI{
         if(previewSection != null) {
             previewSection.removeAll();
             previewSection.setBackground(Color.WHITE);//creates previewSection panel for the sample image
-            //previewPanel.setLayout(new BorderLayout());//sets the previewPanel panel to a BorderLayout
-            //previewSection.setSize(80,120);//sets the size of previewPanel panel
         }
     }
 
@@ -308,12 +298,9 @@ public class TheGUI{
         previewSection.setLayout(new BoxLayout(previewSection,BoxLayout.Y_AXIS));
         previewPanel = new PreviewPanel();
         previewPanel.setLayout(new BorderLayout());
-        //previewPanel.setBackground(Color.WHITE);
-        //previewPanel.setSize(80,120);
         previewPanel.add(new JLabel(imageList.get(currentPreviewIndex)));
         previewTopPanel = new JPanel();
         previewTopPanel.add(previewLabel);
-        //previewButtonsPanel.setLayout(new BoxLayout(previewSection,BoxLayout.X_AXIS));
         previewSection.add(previewTopPanel);
         previewSection.add(previewPanel);
         previewSection.add(previewButtonsPanel);
@@ -333,23 +320,6 @@ public class TheGUI{
             setFocusTraversalKeysEnabled(false);
 
         }
-/**
-        public NewPanel(String path) {
-            defaultLabel.setText("Image zoom demonstration");
-            imgPath = path;
-            icon = new ImageIcon(imgPath);
-            defaultIcon = new ImageIcon(imgPath);
-            mapLabel = new JLabel(icon);
-        }
-
-        public NewPanel(String name, String path) {
-            defaultLabel.setText("Image zoom demonstration - " + name);
-            imgPath = path;
-            icon = new ImageIcon(imgPath);
-            defaultIcon = new ImageIcon(imgPath);
-            mapLabel = new JLabel(icon);
-        }
-*/
 
         public void setX(int x){
             this.x = x;
@@ -396,23 +366,6 @@ public class TheGUI{
         public PreviewPanel() {
             previewLabel = new JLabel("Preview - " + previewName);
         }
-        /**
-        public PreviewPanel(String path) {
-            previewLabel = new JLabel("Preview - HFH.jpg");
-        }
-
-        public PreviewPanel(String name, String path) {
-            previewLabel = new JLabel("Preview - "+name);
-        }
-         */
-        /**
-        public void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(icon.getImage(),0,0,this);
-        }
-         */
 
     }
 

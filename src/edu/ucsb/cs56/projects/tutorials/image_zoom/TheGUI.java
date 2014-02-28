@@ -83,7 +83,7 @@ public class TheGUI{
 
     public TheGUI() {
         defaultLabel = new JLabel("Image zoom demonstration - HFH");
-        imgPath = "images/HFH.jpg";
+        imgPath = "build/images/HFH.jpg";
         icon = new ImageIcon(imgPath);
         defaultIcon = new ImageIcon(imgPath);
         mapLabel = new JLabel(icon);

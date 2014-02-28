@@ -26,7 +26,7 @@ public class RobotTest {
 	
 	Robot r = new Robot();
 	//move mouse to quit button
-	r.mouseMove((int) q.getX()+35, (int) q.getY()+15); //300,585
+	r.mouseMove((int) q.getX()+35, (int) q.getY()+15);
 	r.delay(1000);
 	
 	//move mouse to zoom + button

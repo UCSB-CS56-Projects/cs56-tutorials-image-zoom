@@ -35,7 +35,6 @@ public class TheGUI{
     JPanel bottomPanel      =      new JPanel();//Bottom subpanels
     JPanel topPanel         =      new JPanel();//Top subpanels
     JPanel infoPanel 		= 	   new JPanel();
-    //JPanel rightPanel     =       new JPanel();
     JPanel previewSection     =       new JPanel();
     JPanel previewButtonsPanel     =       new JPanel();
     JPanel previewTopPanel     =       new JPanel();
@@ -57,22 +56,10 @@ public class TheGUI{
     // File representing the folder that you select using a FileChooser
     static final File dir = new File("build/images");
 
-    ImageIcon previewIcon;
-    ImageIcon defaultPreviewIcon;
     JLabel previewLabel;
 
     // hard-coded for Map
     // TODO: allow for choosing from multiple images
-    /**
-     try{
-     BufferedImage image = ImageIO.read(getClass().getResource(imgPath));
-     ImageIcon icon = new ImageIcon(imgPath);
-     ImageIcon defaultIcon = new ImageIcon(imgPath);
-     JLabel mapLabel = new JLabel(icon);
-     }catch(IOException e) {
-     e.printStackTrace();
-     }
-     */
     String imgPath;
     ImageIcon icon;
     ImageIcon defaultIcon;
@@ -99,22 +86,25 @@ public class TheGUI{
         icon = new ImageIcon(imgPath);
         defaultIcon = new ImageIcon(imgPath);
         mapLabel = new JLabel(icon);
-        defaultPreviewIndex = imageList.indexOf("HFH.jpg");
-        currentPreviewIndex = defaultPreviewIndex;
         loadAllImages();
+        defaultPreviewIndex = getDefaultPictureNumber("HFH.jpg");
+        currentPreviewIndex = defaultPreviewIndex;
+        System.out.println(defaultPreviewIndex);
+        System.out.println(currentPreviewIndex);
+
     }
 
-    public TheGUI(String path) {
+    public TheGUI(String name) {
         defaultLabel = new JLabel("Image zoom demonstration");
         //TODO: do we need a checking system or throw exception in case that path is not in a right format
-        imgPath = path;
+        imgPath = "build/images/"+name;
         icon = new ImageIcon(imgPath);
         defaultIcon = new ImageIcon(imgPath);
         mapLabel = new JLabel(icon);
         //default would not be change if no explicit name given
-        defaultPreviewIndex = imageList.indexOf("HFH.jpg");
-        currentPreviewIndex = defaultPreviewIndex;
         loadAllImages();
+        defaultPreviewIndex = getDefaultPictureNumber(name);
+        currentPreviewIndex = defaultPreviewIndex;
     }
 
     public TheGUI(String name, String path) {
@@ -124,9 +114,10 @@ public class TheGUI{
         icon = new ImageIcon(imgPath);
         defaultIcon = new ImageIcon(imgPath);
         mapLabel = new JLabel(icon);
-        defaultPreviewIndex = imageList.indexOf(name);
-        currentPreviewIndex = defaultPreviewIndex;
         loadAllImages();
+        defaultPreviewIndex = getDefaultPictureNumber(name);
+        currentPreviewIndex = defaultPreviewIndex;
+
     }
 
     /**
@@ -136,13 +127,14 @@ public class TheGUI{
 
     public void setUpDisplay() throws IOException{
 
-        mapLabel.setSize(new Dimension(1500,900));
+        //mapLabel.setSize(new Dimension(1500,900));
         newPanel = new NewPanel();
         newPanel.addKeyListener(newPanel);
         addTopPanel();
-        setButtons();
-        addBottomPanel();
         setEastPanel();
+        setButtons();
+        addPreviewButtons();
+        addBottomPanel();
         setNewPanel();
         setmapLabel();
         addToFrame();
@@ -157,14 +149,16 @@ public class TheGUI{
 
     public void setEastPanel(){
         infoPanel.setLayout(new BoxLayout(infoPanel,BoxLayout.Y_AXIS));
+        infoPanel.setPreferredSize(new Dimension(250, 600));
         JTextArea directionsTextArea = new JTextArea(generalInfo);//creates a new space for text for directions
         directionsTextArea.setEditable(false);//makes the new text area NOT editable
         directionsTextArea.setLineWrap(true);//allows the lines to go to the next line if the current on is full
         directionsTextArea.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
         JScrollPane scroll = new JScrollPane(directionsTextArea);//creates a new scrollable widget
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
-        directionsTextArea.setPreferredSize(new Dimension(200,600));//sets the size of the text area
+        directionsTextArea.setPreferredSize(new Dimension(200,200));//sets the size of the text area
         infoPanel.add(scroll);//adds the scrolling
+        resetPreviewSection();
         setPreviewSection();
         infoPanel.add(previewSection);
     }
@@ -176,9 +170,9 @@ public class TheGUI{
         quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
         zoomIn.setPreferredSize(new Dimension(100, 50));
         zoomOut.setPreferredSize(new Dimension(100,50));
-        previous.setPreferredSize(new Dimension(100,50));
-        next.setPreferredSize(new Dimension(100,50));
-        load.setPreferredSize(new Dimension(100,50));
+        //previous.setPreferredSize(new Dimension(100,50));
+        //next.setPreferredSize(new Dimension(100,50));
+        //load.setPreferredSize(new Dimension(100,50));
         zoomIn.addActionListener(new zoomInActionListener());
         zoomOut.addActionListener(new zoomOutActionListener());
         previous.addActionListener(new previousActionListener());
@@ -209,11 +203,11 @@ public class TheGUI{
     }
 
     public void addPreviewButtons(){
-        previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
+        //previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
         previewButtonsPanel.add(previous);
-        previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
+        //previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
         previewButtonsPanel.add(next);
-        previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
+        //previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
         previewButtonsPanel.add(load);
     }
 
@@ -233,20 +227,21 @@ public class TheGUI{
      *loads the demo-image (.jpg) into mapLabel
      */
     public void setmapLabel(){
-	newPanel.remove(mapLabel);
-	if(zoomKeeper == 0){
-	    Image image = defaultIcon.getImage();
-	    icon = new ImageIcon(image);
-	    mapLabel = new JLabel(icon);
-	    mapLabel.setSize(new Dimension(1500,900));
-	}
-	else{
-	    Image image = icon.getImage();
-	    Image Zoomed = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
-	    icon = new ImageIcon(Zoomed);
-	    mapLabel = new JLabel(icon);
-	    mapLabel.setSize(new Dimension(1500,900));//sets size of resized label
-	}
+        //newPanel.remove(mapLabel);
+        if(zoomKeeper == 0){
+            Image image = defaultIcon.getImage();
+            icon = new ImageIcon(image);
+            mapLabel = new JLabel(icon);
+            mapLabel.setSize(new Dimension(1500,900));
+        }
+        else{
+            Image image = icon.getImage();
+            Image Zoomed = image.getScaledInstance(zoomWidth, zoomHeight, Image.SCALE_SMOOTH);//zooms in the image
+            icon = new ImageIcon(Zoomed);
+            mapLabel = new JLabel(icon);
+            mapLabel.setSize(new Dimension(1500,900));//sets size of resized label
+        }
+        newPanel.add(mapLabel);
     }
 
     /**
@@ -261,16 +256,7 @@ public class TheGUI{
 	frame.setBackground(Color.WHITE);//sets the background color of the frame to white
 	frame.setVisible(true);//enables us to see the frame
     }
-	
 
-    /**
-    public void findDefaultPreviewIndex(){
-        for(int i=0;i<imageList.size();i++){
-            if(imageList[i].getDescription().equal("HFH.jpg"))
-
-        }
-    }
-     */
     public void loadAllImages(){
         if (dir.isDirectory()) { // make sure it's a directory
             for (final File f : dir.listFiles()) {
@@ -283,46 +269,51 @@ public class TheGUI{
                     width = img.getWidth();
                     height = img.getHeight();
                     scale = height / width;
-                    width = 200f;
+                    width = 250f;
                     height = (width * scale); // height should be scaled from new width
                     ImageIcon loadIcons = new ImageIcon(img.getScaledInstance(Math.max(1, (int) width), Math.max(1, (int) height), Image.SCALE_SMOOTH));
                     loadIcons.setDescription(f.getName());
                     imageList.add(loadIcons);
-                    //// maybe useful later
-                    //System.out.println("image: " + f.getName());
-                    //System.out.println(" width : " + img.getWidth());
-                    //System.out.println(" height: " + img.getHeight());
-                    //System.out.println(" size  : " + f.length());
                 } catch (final IOException e) {
                     // handle errors here
                 }
+                //ImageIcon loadIcons = new ImageIcon("build/images/"+f.getName());
+                //loadIcons.setDescription(f.getName());
+                //imageList.add(loadIcons);
             }
         }
     }
       
-    public void setPreviewIcon(){
-        defaultPreviewIcon = imageList.get(defaultPreviewIndex);
-        previewIcon = imageList.get(currentPreviewIndex);
+    public int getDefaultPictureNumber(String name){
+        ArrayList<String> sl = new ArrayList<String>();
+        for(ImageIcon i:imageList){
+            sl.add(i.getDescription());
+        }
+        return sl.indexOf(name);
     }
 
     /**
-     *Resets PreviewPanel for a repaint
+     *Resets PreviewSection for a repaint
      */
-    public void setPreviewPanel(){
-        if(previewPanel != null) {
-            previewPanel.removeAll();
-            previewPanel.setBackground(Color.WHITE);//creates previewPanel panel for the sample image
-            previewPanel.setLayout(new BorderLayout());//sets the previewPanel panel to a BorderLayout
-            previewPanel.setSize(200,300);//sets the size of previewPanel panel
+    public void resetPreviewSection(){
+        if(previewSection != null) {
+            previewSection.removeAll();
+            previewSection.setBackground(Color.WHITE);//creates previewSection panel for the sample image
+            //previewPanel.setLayout(new BorderLayout());//sets the previewPanel panel to a BorderLayout
+            //previewSection.setSize(80,120);//sets the size of previewPanel panel
         }
     }
 
     public void setPreviewSection(){
         previewSection.setLayout(new BoxLayout(previewSection,BoxLayout.Y_AXIS));
         previewPanel = new PreviewPanel();
+        previewPanel.setLayout(new BorderLayout());
+        //previewPanel.setBackground(Color.WHITE);
+        //previewPanel.setSize(80,120);
+        previewPanel.add(new JLabel(imageList.get(currentPreviewIndex)));
+        previewTopPanel = new JPanel();
         previewTopPanel.add(previewLabel);
-        previewButtonsPanel.setLayout(new BoxLayout(previewSection,BoxLayout.X_AXIS));
-        addPreviewButtons();
+        //previewButtonsPanel.setLayout(new BoxLayout(previewSection,BoxLayout.X_AXIS));
         previewSection.add(previewTopPanel);
         previewSection.add(previewPanel);
         previewSection.add(previewButtonsPanel);
@@ -342,7 +333,7 @@ public class TheGUI{
             setFocusTraversalKeysEnabled(false);
 
         }
-
+/**
         public NewPanel(String path) {
             defaultLabel.setText("Image zoom demonstration");
             imgPath = path;
@@ -358,7 +349,7 @@ public class TheGUI{
             defaultIcon = new ImageIcon(imgPath);
             mapLabel = new JLabel(icon);
         }
-
+*/
 
         public void setX(int x){
             this.x = x;
@@ -404,25 +395,24 @@ public class TheGUI{
     class PreviewPanel extends JPanel{
         public PreviewPanel() {
             previewLabel = new JLabel("Preview - " + previewName);
-            setPreviewIcon();
         }
         /**
         public PreviewPanel(String path) {
             previewLabel = new JLabel("Preview - HFH.jpg");
-            setPreviewIcon();
         }
 
         public PreviewPanel(String name, String path) {
             previewLabel = new JLabel("Preview - "+name);
-            setPreviewIcon();
         }
          */
+        /**
         public void paintComponent(Graphics g)
         {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
             g2d.drawImage(icon.getImage(),0,0,this);
         }
+         */
 
     }
 
@@ -461,21 +451,28 @@ public class TheGUI{
 
     class previousActionListener implements ActionListener{
         public void actionPerformed(ActionEvent event){
-            currentPreviewIndex = currentPreviewIndex % (imageList.size()-1);
-            setPreviewPanel();
-            setPreviewIcon();
+            if(currentPreviewIndex-1 < 0){
+                currentPreviewIndex = imageList.size()-1;
+            }
+            else {
+                currentPreviewIndex = currentPreviewIndex - 1;
+            }
+            resetPreviewSection();
+            previewName = imageList.get(currentPreviewIndex).getDescription();
             setPreviewSection();
             addToFrame();
+            System.out.println(currentPreviewIndex);
         }
     }
 
     class nextActionListener implements ActionListener{
         public void actionPerformed(ActionEvent event){
-            currentPreviewIndex = currentPreviewIndex % (imageList.size()-1);
-            setPreviewPanel();
-            setPreviewIcon();
+            currentPreviewIndex = (currentPreviewIndex+1) % (imageList.size());
+            resetPreviewSection();
+            previewName = imageList.get(currentPreviewIndex).getDescription();
             setPreviewSection();
             addToFrame();
+            System.out.println(currentPreviewIndex);
         }
     }
 
@@ -483,10 +480,11 @@ public class TheGUI{
         public void actionPerformed(ActionEvent event){
             zoomKeeper=0;
             setNewPanel();
-            newPanel.remove(mapLabel);
+            //newPanel.remove(mapLabel);
             icon = new ImageIcon("build/images/"+imageList.get(currentPreviewIndex).getDescription());
             mapLabel = new JLabel(icon);
             mapLabel.setSize(new Dimension(1500,900));
+            newPanel.add(mapLabel);
             addToFrame();
         }
     }

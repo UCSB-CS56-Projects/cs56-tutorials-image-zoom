@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -29,19 +30,56 @@ public class TheGUI{
     //declare the panels and buttons to be accessed from multiple methods  
 
     JFrame frame            =      new JFrame("Image Zoom Demonstration");//main frame
+    //TODO: why this code doesn't work
+    //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel bottomPanel      =      new JPanel();//Bottom subpanels
     JPanel topPanel         =      new JPanel();//Top subpanels
     JPanel infoPanel 		= 	   new JPanel();
+    //JPanel rightPanel     =       new JPanel();
+    JPanel previewSection     =       new JPanel();
+    JPanel previewButtonsPanel     =       new JPanel();
+    JPanel previewTopPanel     =       new JPanel();
+    String previewName = "HFH.jpg";
     JButton quit            =      new JButton("Quit");//cancel button for subscreens
     JButton zoomIn          =      new JButton("Zoom +");
     JButton zoomOut         =      new JButton("Zoom -");
+    JButton previous            =      new JButton("Previous");
+    JButton next          =      new JButton("Next");
+    JButton load         =      new JButton("Load");
     JLabel defaultLabel;
     int zoomKeeper = 0; //keeps track of the level of zoom. Zoom in and out then either zoom farther in by incrementing 1 or decrementing 1
     int zoomWidth;
     int zoomHeight;
+    ArrayList<ImageIcon> imageList = new ArrayList<ImageIcon>();
+    int defaultPreviewIndex;
+    int currentPreviewIndex;
 
+    // File representing the folder that you select using a FileChooser
+    static final File dir = new File("build/images");
 
+    ImageIcon previewIcon;
+    ImageIcon defaultPreviewIcon;
+    JLabel previewLabel;
+
+    // hard-coded for Map
+    // TODO: allow for choosing from multiple images
+    /**
+     try{
+     BufferedImage image = ImageIO.read(getClass().getResource(imgPath));
+     ImageIcon icon = new ImageIcon(imgPath);
+     ImageIcon defaultIcon = new ImageIcon(imgPath);
+     JLabel mapLabel = new JLabel(icon);
+     }catch(IOException e) {
+     e.printStackTrace();
+     }
+     */
     String imgPath;
+    ImageIcon icon;
+    ImageIcon defaultIcon;
+    JLabel mapLabel;
+    NewPanel newPanel = null;
+    PreviewPanel previewPanel = null;
+
 
     String generalInfo = "Directions for zoomIng:\n 1.First zoom to desired magnification\n 2. Then press arrow keys to pan image.";
 
@@ -50,113 +88,103 @@ public class TheGUI{
      * 1.constructor with no parameter, will use "HFH" and "images/HFH.jpg" as the default name ane path
      * 2.constructor with 1 parameter, type String as imagePath, will use "Image zoom demonstration" as defaultLabel
      * 3.constructor with 2 parameters, both type String, first is name and second is path, name will be combine to defaultLabel and path will be imgPath
+     * these constructors are used in case new TheGUI called
+     * for changing image while running the program, see newPanel constructors
      */
+
 
     public TheGUI() {
         defaultLabel = new JLabel("Image zoom demonstration - HFH");
         imgPath = "images/HFH.jpg";
+        icon = new ImageIcon(imgPath);
+        defaultIcon = new ImageIcon(imgPath);
+        mapLabel = new JLabel(icon);
+        defaultPreviewIndex = imageList.indexOf("HFH.jpg");
+        currentPreviewIndex = defaultPreviewIndex;
+        loadAllImages();
     }
 
     public TheGUI(String path) {
         defaultLabel = new JLabel("Image zoom demonstration");
         //TODO: do we need a checking system or throw exception in case that path is not in a right format
         imgPath = path;
+        icon = new ImageIcon(imgPath);
+        defaultIcon = new ImageIcon(imgPath);
+        mapLabel = new JLabel(icon);
+        //default would not be change if no explicit name given
+        defaultPreviewIndex = imageList.indexOf("HFH.jpg");
+        currentPreviewIndex = defaultPreviewIndex;
+        loadAllImages();
     }
 
     public TheGUI(String name, String path) {
         defaultLabel = new JLabel("Image zoom demonstration - " + name);
         //same problem with the second constructor
         imgPath = path;
+        icon = new ImageIcon(imgPath);
+        defaultIcon = new ImageIcon(imgPath);
+        mapLabel = new JLabel(icon);
+        defaultPreviewIndex = imageList.indexOf(name);
+        currentPreviewIndex = defaultPreviewIndex;
+        loadAllImages();
     }
-
-    // hard-coded for Map
-    // TODO: allow for choosing from multiple images
-    ImageIcon icon = new ImageIcon(imgPath);
-    ImageIcon defaultIcon = new ImageIcon(imgPath);
-    NewPanel newPanel = null;
-    JLabel mapLabel = new JLabel(icon);
 
     /**
      * Sets up the basic display which includes the image, zoom, and quit buttons
      * @exception IOException is thrown
      */
 
-    public void setUpDisplay() throws IOException{   
-	
-	mapLabel.setSize(new Dimension(1500,900));
-	newPanel = new NewPanel();
-	newPanel.addKeyListener(newPanel);
-	addTopPanel();
-	setText();
-	setButtons();
-	addBottomPanel();
-	setNewPanel();
-	setmapLabel();
-	addToFrame();
-    }//end setUpDisplay
-    
-  
-     //Zooms by redrawing the image in newPanel to a different scale.
-    class zoomInActionListener implements ActionListener{
-	public void actionPerformed(ActionEvent event){
-	    zoomKeeper++;//increments zoomKeeper which controls the level of zoom
-	    zoomOut.setEnabled(true);//enables the zoomOut key after the initial zoom. zoomIng out in a picture that hasn't been zoomed in on would be pointless.
-       	if(zoomKeeper == 5)
-			zoomIn.setEnabled(false);
-	    setZoomValues();
-	    setNewPanel();
-	    setmapLabel();
-	    addToFrame();
-	}
-    }
+    public void setUpDisplay() throws IOException{
 
-    class zoomOutActionListener implements ActionListener{
-	public void actionPerformed(ActionEvent event){
-	    zoomKeeper--;
-      	    zoomIn.setEnabled(true);
-	    if(zoomKeeper == 0){
-		zoomOut.setEnabled(false);
-		newPanel.setX(0);
-		newPanel.setY(0);
-		System.out.println("actionlistener" + zoomKeeper);
-	    }
-	    else if(zoomKeeper > 1)
-		zoomOut.setEnabled(true);
-	    setZoomValues();
-	    setNewPanel();
-	    setmapLabel();
-	    addToFrame();
-	}
-    }
-    
+        mapLabel.setSize(new Dimension(1500,900));
+        newPanel = new NewPanel();
+        newPanel.addKeyListener(newPanel);
+        addTopPanel();
+        setButtons();
+        addBottomPanel();
+        setEastPanel();
+        setNewPanel();
+        setmapLabel();
+        addToFrame();
+    }//end setUpDisplay
+
     /**
      *Adds introductory header to top panel
      */
     public void addTopPanel(){
-	topPanel.add(defaultLabel);//adds the label to the top panel
+        topPanel.add(defaultLabel);//adds the label to the top panel
     }
 
-    public void setText(){
-	JTextArea directionsTextArea = new JTextArea(generalInfo);//creates a new space for text for directions
-	directionsTextArea.setEditable(false);//makes the new text area NOT editable
-	directionsTextArea.setLineWrap(true);//allows the lines to go to the next line if the current on is full
-	directionsTextArea.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
-	JScrollPane scroll = new JScrollPane(directionsTextArea);//creates a new scrollable widget
-	scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
-	directionsTextArea.setPreferredSize(new Dimension(200,600));//sets the size of the text area
-	infoPanel.add(scroll);//adds the scrolling
+    public void setEastPanel(){
+        infoPanel.setLayout(new BoxLayout(infoPanel,BoxLayout.Y_AXIS));
+        JTextArea directionsTextArea = new JTextArea(generalInfo);//creates a new space for text for directions
+        directionsTextArea.setEditable(false);//makes the new text area NOT editable
+        directionsTextArea.setLineWrap(true);//allows the lines to go to the next line if the current on is full
+        directionsTextArea.setWrapStyleWord(true);//allows long words to break off and continue in the proceeding line
+        JScrollPane scroll = new JScrollPane(directionsTextArea);//creates a new scrollable widget
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//allows for scrolling on that widget
+        directionsTextArea.setPreferredSize(new Dimension(200,600));//sets the size of the text area
+        infoPanel.add(scroll);//adds the scrolling
+        setPreviewSection();
+        infoPanel.add(previewSection);
     }
 
     /**
      *Adds the buttons and their action listeners
      */
     public void setButtons(){
-	quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
-	zoomIn.setPreferredSize(new Dimension(100,50));
-	zoomIn.addActionListener(new zoomInActionListener());
-	zoomOut.setPreferredSize(new Dimension(100,50));
-	zoomOut.addActionListener(new zoomOutActionListener());
-       	zoomOut.setEnabled(false);
+        quit.addActionListener(new QuitActionListener());//adds a new ActionListener to the quit button
+        zoomIn.setPreferredSize(new Dimension(100, 50));
+        zoomOut.setPreferredSize(new Dimension(100,50));
+        previous.setPreferredSize(new Dimension(100,50));
+        next.setPreferredSize(new Dimension(100,50));
+        load.setPreferredSize(new Dimension(100,50));
+        zoomIn.addActionListener(new zoomInActionListener());
+        zoomOut.addActionListener(new zoomOutActionListener());
+        previous.addActionListener(new previousActionListener());
+        next.addActionListener(new nextActionListener());
+        load.addActionListener(new loadActionListener());
+        zoomOut.setEnabled(false);
     }
 
 
@@ -172,12 +200,21 @@ public class TheGUI{
      *Adds elements of bottom panel: quit, zoom-, zoom+ buttons
      */
     public void addBottomPanel(){
-        bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
+    bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(quit);//adds a quit button on the panel located at the bottom of the frame
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(zoomIn);
 	bottomPanel.add(Box.createRigidArea(new Dimension(200,50)));
 	bottomPanel.add(zoomOut);
+    }
+
+    public void addPreviewButtons(){
+        previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
+        previewButtonsPanel.add(previous);
+        previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
+        previewButtonsPanel.add(next);
+        previewButtonsPanel.add(Box.createRigidArea(new Dimension(200,50)));
+        previewButtonsPanel.add(load);
     }
 
     /**
@@ -193,7 +230,7 @@ public class TheGUI{
     }
 
     /**
-     *loads the demo-image (.jpeg) into mapLabel
+     *loads the demo-image (.jpg) into mapLabel
      */
     public void setmapLabel(){
 	newPanel.remove(mapLabel);
@@ -225,67 +262,240 @@ public class TheGUI{
 	frame.setVisible(true);//enables us to see the frame
     }
 	
+
+    /**
+    public void findDefaultPreviewIndex(){
+        for(int i=0;i<imageList.size();i++){
+            if(imageList[i].getDescription().equal("HFH.jpg"))
+
+        }
+    }
+     */
+    public void loadAllImages(){
+        if (dir.isDirectory()) { // make sure it's a directory
+            for (final File f : dir.listFiles()) {
+                BufferedImage img = null;
+                float width;
+                float height;
+                float scale;
+                try {
+                    img = ImageIO.read(f);
+                    width = img.getWidth();
+                    height = img.getHeight();
+                    scale = height / width;
+                    width = 200f;
+                    height = (width * scale); // height should be scaled from new width
+                    ImageIcon loadIcons = new ImageIcon(img.getScaledInstance(Math.max(1, (int) width), Math.max(1, (int) height), Image.SCALE_SMOOTH));
+                    loadIcons.setDescription(f.getName());
+                    imageList.add(loadIcons);
+                    //// maybe useful later
+                    //System.out.println("image: " + f.getName());
+                    //System.out.println(" width : " + img.getWidth());
+                    //System.out.println(" height: " + img.getHeight());
+                    //System.out.println(" size  : " + f.length());
+                } catch (final IOException e) {
+                    // handle errors here
+                }
+            }
+        }
+    }
+      
+    public void setPreviewIcon(){
+        defaultPreviewIcon = imageList.get(defaultPreviewIndex);
+        previewIcon = imageList.get(currentPreviewIndex);
+    }
+
+    /**
+     *Resets PreviewPanel for a repaint
+     */
+    public void setPreviewPanel(){
+        if(previewPanel != null) {
+            previewPanel.removeAll();
+            previewPanel.setBackground(Color.WHITE);//creates previewPanel panel for the sample image
+            previewPanel.setLayout(new BorderLayout());//sets the previewPanel panel to a BorderLayout
+            previewPanel.setSize(200,300);//sets the size of previewPanel panel
+        }
+    }
+
+    public void setPreviewSection(){
+        previewSection.setLayout(new BoxLayout(previewSection,BoxLayout.Y_AXIS));
+        previewPanel = new PreviewPanel();
+        previewTopPanel.add(previewLabel);
+        previewButtonsPanel.setLayout(new BoxLayout(previewSection,BoxLayout.X_AXIS));
+        addPreviewButtons();
+        previewSection.add(previewTopPanel);
+        previewSection.add(previewPanel);
+        previewSection.add(previewButtonsPanel);
+    }
+
     //Code to implement panning that doesn't work. Left here for future progress.
     class NewPanel extends JPanel implements KeyListener{
-	private int x;
-	private int y;
-	
-	public NewPanel(){
-	    this.removeAll();
-	    this.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
-	    this.setBackground(Color.WHITE);
-	    this.setSize(1000,600);
-	    setFocusable(true);
-	    setFocusTraversalKeysEnabled(false);
-	}
-	
-	public void setX(int x){
-	    this.x = x;
-	}
-	public void setY(int y){
-	    this.y = y;
-	}
+        private int x;
+        private int y;
 
-	public void paintComponent(Graphics g)
-	{
-	    super.paintComponent(g);
-	    Graphics2D g2d = (Graphics2D) g;
-	    g2d.drawImage(icon.getImage(),x,y,this);
-	}
-	
-	public void keyPressed(KeyEvent key)
-	{
-	    if(zoomKeeper == 0){}
-	    else{
-		switch (key.getKeyCode())
-		    {
-		    case KeyEvent.VK_RIGHT:
-			x = x - 10;
-			break;
-		    case KeyEvent.VK_LEFT:
-			x = x + 10;
-			break;
-		    case KeyEvent.VK_DOWN:
-			y = y - 10;
-			break;
-		    case KeyEvent.VK_UP:
-			y = y + 10;
-			break;
-		    }
-	    }
-	    this.repaint();
-	}
-	public void keyReleased(KeyEvent key){} // keylistener
-	public void keyTyped(KeyEvent key){}    // is abstract
+        public NewPanel(){
+            this.removeAll();
+            this.setLayout(new BorderLayout());//BorderLayout manager automatically centers our image
+            this.setBackground(Color.WHITE);
+            this.setSize(1000,600);
+            setFocusable(true);
+            setFocusTraversalKeysEnabled(false);
+
+        }
+
+        public NewPanel(String path) {
+            defaultLabel.setText("Image zoom demonstration");
+            imgPath = path;
+            icon = new ImageIcon(imgPath);
+            defaultIcon = new ImageIcon(imgPath);
+            mapLabel = new JLabel(icon);
+        }
+
+        public NewPanel(String name, String path) {
+            defaultLabel.setText("Image zoom demonstration - " + name);
+            imgPath = path;
+            icon = new ImageIcon(imgPath);
+            defaultIcon = new ImageIcon(imgPath);
+            mapLabel = new JLabel(icon);
+        }
+
+
+        public void setX(int x){
+            this.x = x;
+        }
+        public void setY(int y){
+            this.y = y;
+        }
+
+        public void paintComponent(Graphics g)
+        {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.drawImage(icon.getImage(),x,y,this);
+        }
+
+        public void keyPressed(KeyEvent key)
+        {
+            if(zoomKeeper == 0){}
+            else{
+                switch (key.getKeyCode())
+                {
+                    case KeyEvent.VK_RIGHT:
+                        x = x - 10;
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        x = x + 10;
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        y = y - 10;
+                        break;
+                    case KeyEvent.VK_UP:
+                        y = y + 10;
+                        break;
+                }
+            }
+            this.repaint();
+        }
+        public void keyReleased(KeyEvent key){} // keylistener
+        public void keyTyped(KeyEvent key){}    // is abstract
     }
-    
+
+
+    class PreviewPanel extends JPanel{
+        public PreviewPanel() {
+            previewLabel = new JLabel("Preview - " + previewName);
+            setPreviewIcon();
+        }
+        /**
+        public PreviewPanel(String path) {
+            previewLabel = new JLabel("Preview - HFH.jpg");
+            setPreviewIcon();
+        }
+
+        public PreviewPanel(String name, String path) {
+            previewLabel = new JLabel("Preview - "+name);
+            setPreviewIcon();
+        }
+         */
+        public void paintComponent(Graphics g)
+        {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.drawImage(icon.getImage(),0,0,this);
+        }
+
+    }
+
+    //Zooms by redrawing the image in newPanel to a different scale.
+    class zoomInActionListener implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            zoomKeeper++;//increments zoomKeeper which controls the level of zoom
+            zoomOut.setEnabled(true);//enables the zoomOut key after the initial zoom. zoomIng out in a picture that hasn't been zoomed in on would be pointless.
+            if(zoomKeeper == 5)
+                zoomIn.setEnabled(false);
+            setZoomValues();
+            setNewPanel();
+            setmapLabel();
+            addToFrame();
+        }
+    }
+
+    class zoomOutActionListener implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            zoomKeeper--;
+            zoomIn.setEnabled(true);
+            if(zoomKeeper == 0){
+                zoomOut.setEnabled(false);
+                newPanel.setX(0);
+                newPanel.setY(0);
+                System.out.println("actionlistener" + zoomKeeper);
+            }
+            else if(zoomKeeper > 1)
+                zoomOut.setEnabled(true);
+            setZoomValues();
+            setNewPanel();
+            setmapLabel();
+            addToFrame();
+        }
+    }
+
+    class previousActionListener implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            currentPreviewIndex = currentPreviewIndex % (imageList.size()-1);
+            setPreviewPanel();
+            setPreviewIcon();
+            setPreviewSection();
+            addToFrame();
+        }
+    }
+
+    class nextActionListener implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            currentPreviewIndex = currentPreviewIndex % (imageList.size()-1);
+            setPreviewPanel();
+            setPreviewIcon();
+            setPreviewSection();
+            addToFrame();
+        }
+    }
+
+    class loadActionListener implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            zoomKeeper=0;
+            setNewPanel();
+            newPanel.remove(mapLabel);
+            icon = new ImageIcon("build/images/"+imageList.get(currentPreviewIndex).getDescription());
+            mapLabel = new JLabel(icon);
+            mapLabel.setSize(new Dimension(1500,900));
+            addToFrame();
+        }
+    }
+
     // Quit button action listener. Exits on-click.
     class QuitActionListener implements ActionListener{//the action listener when the quit button is pressed
-	public void actionPerformed(ActionEvent event){//the action that is performed after pressing quit
-	    System.exit(0);
-	    
-	}
+        public void actionPerformed(ActionEvent event){//the action that is performed after pressing quit
+            System.exit(0);
+        }
     }//end CancelActionListener
-    
 } //end class
 

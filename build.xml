@@ -29,6 +29,9 @@
     <javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
       <classpath refid="project.class.path" />
     </javac>
+    <copy todir="build/images">
+        <fileset dir="images" includes="*.jpg"/>
+    </copy>
   </target>
 
   <!-- **************** RUN **************** -->

@@ -222,7 +222,7 @@ public class TheGUI{
      *loads the demo-image (.jpg) into mapLabel
      */
     public void setmapLabel(){
-        //newPanel.remove(mapLabel);
+        newPanel.remove(mapLabel);
         if(zoomKeeper == 0){
             Image image = defaultIcon.getImage();
             icon = new ImageIcon(image);
@@ -236,7 +236,7 @@ public class TheGUI{
             mapLabel = new JLabel(icon);
             mapLabel.setSize(new Dimension(1500,900));//sets size of resized label
         }
-        newPanel.add(mapLabel);
+        //newPanel.add(mapLabel);
     }
 
     /**

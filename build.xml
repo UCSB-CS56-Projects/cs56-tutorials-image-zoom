@@ -13,6 +13,8 @@
   <property name="categoryName" value="tutorials" />
   <property name="repoName" value="image_zoom" />
   <property name="mainClass" value="edu.ucsb.cs56.projects.${categoryName}.${repoName}.Run" />
+  <property name="RobotTestClass" value="edu.ucsb.cs56.projects.${categoryName}.${repoName}.RobotTest" />
+
   <property name="projectName" value="${course}_projects__${categoryName}_${repoName}" />
   <property name="projectPath" value="${course}/projects/${categoryName}/${repoName}" />
   <property name="javadocDest" value="${webRoot}/${projectPath}/javadoc" /> 
@@ -29,6 +31,9 @@
     <javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
       <classpath refid="project.class.path" />
     </javac>
+    <copy todir="build/images">
+        <fileset dir="images" includes="*.jpg"/>
+    </copy>
   </target>
 
   <!-- **************** RUN **************** -->
@@ -36,6 +41,29 @@
     <java classname="${mainClass}" classpath="build" fork="true" > 
        <jvmarg value="-Xmx1024m"/> <!-- heap space -->
     </java>
+  </target>
+
+  <!-- **************** RUN **************** -->
+  <target name="RobotTest" depends="compile" description="RobotTest the GUI">
+    <java classname="${RobotTestClass}" classpath="build" fork="true" > 
+       <jvmarg value="-Xmx1024m"/> <!-- heap space -->
+    </java>
+  </target>
+
+  <!-- **************** RobotTest **************** -->
+  <target name="RobotTest2" depends="compile" description="RobotTest the GUI in 2 separate processes">
+    <parallel>
+      <sequential>
+	<java classname="${mainClass}" classpath="build" fork="true" > 
+	  <jvmarg value="-Xmx1024m"/> <!-- heap space -->
+	</java>
+      </sequential>
+      <sequential>
+	<java classname="${RobotTestClass}" classpath="build" fork="true" >
+	  <jvmarg value="-Xmx1024m"/> <!-- heap space -->
+	</java>
+      </sequential>
+    </parallel>
   </target>
 
   <!-- **************** CLEAN **************** -->

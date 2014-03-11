@@ -15,8 +15,18 @@ public class Run{
      * @exception IOException is thrown
      */
     public static void main(String[] args) throws IOException {
-	TheGUI a = new TheGUI();
-	a.setUpDisplay();
+
+        if(args.length==1){
+            TheGUI a = new TheGUI(args[0]);
+            a.setUpDisplay();
+        }else if(args.length==2){
+            TheGUI a = new TheGUI(args[0],args[1]);
+            a.setUpDisplay();
+        }else{
+            TheGUI a = new TheGUI();
+            a.setUpDisplay();
+        }
+
     }
 
 }

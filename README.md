@@ -2,10 +2,10 @@ cs56-tutorials-image-zoom
 =========================
 
  - __Navigation__: 
-   - [Introduction](https://github.com/PARanOiA1120/cs56-games-simon-says/blob/master/README.md#introduction)
-   - [Interface](https://github.com/PARanOiA1120/cs56-games-simon-says/blob/master/README.md#interface)
-   - [Documentation](https://github.com/PARanOiA1120/cs56-games-simon-says/blob/master/README.md#documentation)
-   - [How to run](https://github.com/PARanOiA1120/cs56-games-simon-says/blob/master/README.md#how-to-run)
+   - [Introduction](https://github.com/Derek-X-Wang/cs56-tutorials-image-zoom/edit/master/README.md#introduction)
+   - [Interface](https://github.com/Derek-X-Wang/cs56-tutorials-image-zoom/edit/master/README.md#interface)
+   - [Documentation](https://github.com/Derek-X-Wang/cs56-tutorials-image-zoom/edit/master/README.md#documentation)
+   - [How to run](https://github.com/Derek-X-Wang/cs56-tutorials-image-zoom/edit/master/README.md#how-to-run)
 
 
 ##Introduction

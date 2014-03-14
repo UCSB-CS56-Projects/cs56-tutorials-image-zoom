@@ -10,7 +10,7 @@ cs56-tutorials-image-zoom
 
 ##Introduction
  
-  TA tutorial illustrating how to do simple zoom in and zoom out controls on, for example, a map image.   Useful for cs56-misc-map-gui. Here is a screenshot of the basic interface.
+  This tutorial illustrating how to do simple zoom in and zoom out controls on, for example, a map image.   Useful for cs56-misc-map-gui. Here is a screenshot of the basic interface.
   
 ##Interface
 
@@ -19,12 +19,12 @@ cs56-tutorials-image-zoom
 ![](http://i.imgur.com/wkrgg1z.png)
 
 * New version
- 
+ ![](http://i.imgur.com/ylWsf20.jpg?1)
 
 
 ## Documentation
 
-* `RobotTest` class setup a RobotTest to test the buttons.
+* `RobotTest` class setup a RobotTest to test the buttons and arrow keys.
 
 * `Run.java` class run the project, there is also so if/else statement for command line arguments, but those are not completed yet. 
 

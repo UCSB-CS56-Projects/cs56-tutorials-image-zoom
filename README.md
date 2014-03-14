@@ -32,4 +32,4 @@ cs56-tutorials-image-zoom
 
 
 ## How to run 
-To start the game, use `ant run`. 
+To start the program, use `ant run`. 

@@ -72,10 +72,10 @@ public class TheGUI{
     String generalInfo = "Directions for zoomIng:\n 1.First zoom to desired magnification\n 2. Then press arrow keys to pan image.";
 
     /**
-     * Three constructors have been create:
-     * 1.constructor with no parameter, will use "HFH" and "images/HFH.jpg" as the default name ane path
-     * 2.constructor with 1 parameter, type String as imagePath, will use "Image zoom demonstration" as defaultLabel
-     * 3.constructor with 2 parameters, both type String, first is name and second is path, name will be combine to defaultLabel and path will be imgPath
+     * Three constructors have been created:
+     * 1.constructor with no parameter: uses "HFH" and "images/HFH.jpg" as the default name and path
+     * 2.constructor with 1 parameter: type String as imagePath, will use "Image zoom demonstration" as defaultLabel
+     * 3.constructor with 2 parameters: both type String, first is name and second is path, name will be combined to defaultLabel and path will be imgPath
      * these constructors are used in case new TheGUI called
      * for changing image while running the program, see newPanel constructors
      */

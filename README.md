@@ -4,9 +4,10 @@ cs56-tutorials-image-zoom
 
 project history
 ===============
-```
- W14 | jstaahl 5pm | derek-x-wang,RexLang | (kjorg50) A tutorial illustrating how to do simple zoom in and zoom out controls on, for example, a map image.
-```
+~~~
+ W14 | jstaahl 5pm | derek-x-wang,RexLang | (kjorg50)
+ A tutorial illustrating how to do simple zoom in and zoom out controls on, for example, a map image.
+~~~
 
 
  - __Navigation__: 
@@ -16,15 +17,16 @@ project history
    - [How to run](https://github.com/Derek-X-Wang/cs56-tutorials-image-zoom/blob/master/README.md#how-to-run)
 
 
-##Introduction
- 
-  This tutorial illustrating how to do simple zoom in and zoom out controls on, for example, a map image.   Useful for cs56-misc-map-gui. Here is a screenshot of the basic interface.
+## Introduction
+
+  A program that allows for simple zoom in and zoom out controls on images (such as a map).
+  This tutorial illustrating how to do simple zoom in and zoom out controls on, for example, a map image.
+  Useful for cs56-misc-map-gui. Here is a screenshot of the basic interface.
   
-##Interface
+## Interface
 
 * Previous version
- 
-![](http://i.imgur.com/wkrgg1z.png)
+ ![](http://i.imgur.com/wkrgg1z.png)
 
 * New version
  ![](http://i.imgur.com/ylWsf20.jpg?1)

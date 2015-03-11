@@ -1,11 +1,11 @@
 package edu.ucsb.cs56.projects.tutorials.image_zoom;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 
 public class PreviewImage extends ImageLoader {
 
@@ -14,7 +14,7 @@ public class PreviewImage extends ImageLoader {
 	public int currentImageIndex;
 
 	/**
-	 * Default Constructor previewImageModel() loads the default image files
+	 * Default Constructor PreviewImage() loads the default image files
 	 */
 	public PreviewImage() {
 		loadedImages = new ArrayList<ImageIcon>();

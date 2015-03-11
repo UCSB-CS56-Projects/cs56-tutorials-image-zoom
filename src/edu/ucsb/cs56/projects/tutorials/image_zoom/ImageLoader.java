@@ -1,12 +1,11 @@
 package edu.ucsb.cs56.projects.tutorials.image_zoom;
 
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 /**
  * @author elswenson, andrewtran1995

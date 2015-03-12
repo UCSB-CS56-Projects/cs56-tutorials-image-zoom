@@ -64,18 +64,20 @@ public class PreviewImage extends ImageLoader {
 	}
 
 	/**
-	 *
-	 * @return
+	 * getCurrentImage() returns the imageIcon for the currently selected image
+	 * @return the imageIcon object that is the currently selected image
 	 */
 	public ImageIcon getCurrentImage() {
 		return loadedImages.get(currentImageIndex);
 	}
 
 	/**
-	 *
-	 * @param i
+	 * setCurrentImageIndex() sets the current image index, uses two assertions to require proper values.
+	 * @param i is the new image index
 	 */
 	public void setCurrentImageIndex(int i) {
+		assert (i < loadedImages.size());
+		assert (i >= 0);
 		currentImageIndex = i;
 	}
 

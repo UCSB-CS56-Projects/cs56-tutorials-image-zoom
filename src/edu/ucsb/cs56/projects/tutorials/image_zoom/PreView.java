@@ -1,6 +1,7 @@
 package edu.ucsb.cs56.projects.tutorials.image_zoom;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -16,14 +17,14 @@ public class PreView {
 
     JPanel previewLabelPanel = new JPanel();
     String previewName = "HFH.jpg";//initialized string, part of label
-    JLabel previewLabel = new Jlabel("Preview - " + previewName);//label for preview image
+    JLabel previewLabel = new JLabel("Preview - " + previewName);//label for preview image
 
     JPanel previewMainPanel = new JPanel();//panel for preview image
 
     JPanel previewButtonsPanel = new JPanel();
     JButton previousButton = new JButton("Previous");
     JButton nextButton = new JButton("Next");
-    JButton loadButton = new JButon("Load");
+    JButton loadButton = new JButton("Load");
 
     /**
      * Constructor which takes in PreviewImage for PreView to interact with
@@ -74,7 +75,7 @@ public class PreView {
     public void setPreviewMainPanel() {
         previewMainPanel = new JPanel();
         previewMainPanel.setLayout(new BorderLayout());
-        previewMainPanel.add(new JLabel(model.getCurrentImage()));
+        previewMainPanel.add(new JLabel(previewImage.getCurrentImage()));
     }
 
     //set previewButtonsPanel
@@ -97,7 +98,7 @@ public class PreView {
      */
     class PreviewPanel extends JPanel {
         public PreviewPanel() {
-            previewLabel = new Jlabel("Preview - " + previewName);
+            previewLabel = new JLabel("Preview - " + previewName);
         }
     }
 

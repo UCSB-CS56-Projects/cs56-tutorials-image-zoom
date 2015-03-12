@@ -1,8 +1,11 @@
 package edu.ucsb.cs56.projects.tutorials.image_zoom;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
@@ -31,8 +34,8 @@ public class MainView {
 		frame.setPreferredSize(new Dimension(1000,625));
 		frame.setResizable(false);
 		setZoomPanel();
-        setImageLabel();
         setZoomControlPanel();
+        setImageLabel();
         zoomPanel.addKeyListener(zoomPanel);
 	}
 
@@ -51,12 +54,13 @@ public class MainView {
     }
 
     public void setImageLabel() {
-        zoomPanel.remove(imageLabel);
+    	if(imageLabel != null)
+    		zoomPanel.remove(imageLabel);
         if(mainImage.zoomMagnitude == 0) {
-            imageLabel = new JLabel(mainImage.currentImage);
+            imageLabel = new JLabel(mainImage.getCurrentImage());
             imageLabel.setSize(new Dimension(1500,900));
         } else {
-            Image image = mainImage.currentImage.getImage();
+            Image image = mainImage.getCurrentImage().getImage();
             Image zoomed = image.getScaledInstance(mainImage.zoomWidth,
                                             mainImage.zoomHeight,
                                             Image.SCALE_SMOOTH);
@@ -74,12 +78,12 @@ public class MainView {
 		zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
 		zoomControlPanel.add(quitButton);
 
-        zoomIn.setPreferredSize(new Dimension(100,50));
+        zoomInButton.setPreferredSize(new Dimension(100,50));
 		zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
 		zoomControlPanel.add(zoomInButton);
 
-        zoomOut.setPreferredSize(new Dimension(100,50));
-        zoomOut.setEnabled(false);
+        zoomOutButton.setPreferredSize(new Dimension(100,50));
+        zoomOutButton.setEnabled(false);
 		zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
 		zoomControlPanel.add(zoomOutButton);
 	}
@@ -115,7 +119,7 @@ public class MainView {
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(currentImage.getImage(),x,y,this);
+            g2d.drawImage(mainImage.getCurrentImage().getImage(),x,y,this);
         }
 
         public void keyPressed(KeyEvent key) {

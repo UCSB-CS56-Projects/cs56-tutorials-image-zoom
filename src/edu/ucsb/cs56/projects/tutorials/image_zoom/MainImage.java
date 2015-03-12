@@ -9,7 +9,7 @@ public class MainImage extends ImageLoader {
     /**
      * The current image
      */
-	public ImageIcon currentImage;
+	private ImageIcon currentImage;
 
     /**
      * Zoom values
@@ -19,7 +19,7 @@ public class MainImage extends ImageLoader {
     int zoomHeight = 0;
 
 	/**
-	 *
+	 *  default Constructor;
 	 */
 	public MainImage() {
 	}
@@ -30,6 +30,10 @@ public class MainImage extends ImageLoader {
 	 */
 	public void setCurrentImage(ImageIcon image) {
 		currentImage = image;
+	}
+	
+	public ImageIcon getCurrentImage() {
+		return currentImage;
 	}
 
 

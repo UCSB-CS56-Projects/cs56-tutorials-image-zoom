@@ -1,8 +1,12 @@
 package edu.ucsb.cs56.projects.tutorials.image_zoom;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.logging.Logger;
+
+import javax.swing.JFrame;
 
 public class ImageController {
 	Logger logger = Logger.getLogger("ImageController");
@@ -80,10 +84,10 @@ public class ImageController {
             //update previewImage model
 			getPreviousPreviewImage();
 			//update preView view
-            preView.previewName = loadedImages.getCurrentImage().getDescription();
+            preView.previewName = previewImage.getCurrentImage().getDescription();
             preView.setPreviewSection();
             addToFrame();
-            System.out.println(preView.currentImageIndex);
+            System.out.println(previewImage.currentImageIndex);
 		}
 	}
 
@@ -97,10 +101,10 @@ public class ImageController {
 			//update previewImage model
 			getNextPreviewImage();
 			// update preView view
-            preView.previewName = loadedImages.getCurrentImage().getDescription();
+            preView.previewName = previewImage.getCurrentImage().getDescription();
             preView.setPreviewSection();
             addToFrame();
-            System.out.println(preView.currentImageIndex);
+            System.out.println(previewImage.currentImageIndex);
 		}
 	}
 
@@ -135,7 +139,7 @@ public class ImageController {
             mainImage.zoomMagnitude++;
             mainView.zoomOutButton.setEnabled(true);
             if(mainImage.zoomMagnitude == 5)
-                preView.zoomInButton.setEnabled(false);
+                mainView.zoomInButton.setEnabled(false);
             mainView.setZoomValues();
             mainView.setZoomPanel();
             mainView.setImageLabel();

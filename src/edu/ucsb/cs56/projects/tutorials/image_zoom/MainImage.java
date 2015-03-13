@@ -9,12 +9,12 @@ import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
 public class MainImage extends ImageLoader {
-	Logger logger = Logger.getLogger("MainImage");
+    Logger logger = Logger.getLogger("MainImage");
 
     /**
      * The current image
      */
-	private ImageIcon currentImage;
+    private ImageIcon currentImage;
 
     /**
      * Zoom values
@@ -26,49 +26,45 @@ public class MainImage extends ImageLoader {
     public int y;
     
 
-	/**
-	 *  default Constructor;
-	 */
-	public MainImage(ImageIcon icon) {
-		this.setCurrentImage(icon);
-		this.zoomMagnitude = 1;
-		this.zoomWidth = Constants.MAIN_IMAGE_BASE_WIDTH;
-		this.zoomHeight = Constants.MAIN_IMAGE_BASE_HEIGHT;
-		this.x = 0;
-		this.y = 0;
-	}
+    /**
+     *  default Constructor;
+     */
+    public MainImage(ImageIcon icon) {
+	this.setCurrentImage(icon);
+	this.zoomMagnitude = 1;
+	this.zoomWidth = Constants.MAIN_IMAGE_BASE_WIDTH;
+	this.zoomHeight = Constants.MAIN_IMAGE_BASE_HEIGHT;
+	this.x = 0;
+	this.y = 0;
+    }
 
-	/**
-	 * setCurrentImage sets the current imageIcon from the parameter
-	 * @param image the new main image to be displayed
-	 */
-	public void setCurrentImage(ImageIcon image) {
-		currentImage = image;
-	}
+    /**
+     * setCurrentImage sets the current imageIcon from the parameter
+     * @param image the new main image to be displayed
+     */
+    public void setCurrentImage(ImageIcon image) {
+	currentImage = image;
+    }
 	
-	/**
-	 * getCurrentImage() returns the current imageIcon being displayed
-	 * @return the imageIcon instance variable currentImage
-	 */
-	public ImageIcon getCurrentImage() 
-	{
-		return currentImage;
-	}
+    /**
+     * getCurrentImage() returns the current imageIcon being displayed
+     * @return the imageIcon instance variable currentImage
+     */
+    public ImageIcon getCurrentImage() 
+    {
+	return currentImage;
+    }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public ImageIcon getResizedImage() 
-	{
-		Image resizedImage = currentImage.getImage().getScaledInstance(zoomWidth, zoomHeight, java.awt.Image.SCALE_SMOOTH); 
-		return new ImageIcon(resizedImage);
-	}
-	
-	public JLabel getResizedImage(ImageIcon icon) 
-	{
-		Image resizedImage = icon.getImage().getScaledInstance(zoomWidth, zoomHeight, java.awt.Image.SCALE_SMOOTH); 
-		return new JLabel(new ImageIcon(resizedImage));
-	}
+    /**
+     * getResizedImage() returns the current imageIcon
+     * at the specified zoomWidth and zoomHeight
+     * @return
+     */
+    public ImageIcon getResizedImage() 
+    {
+	ImageIcon loadedImageIcon = new ImageIcon("./build/images/" + currentImage.getDescription());
+	System.out.println(loadedImageIcon.getDescription());
+	return new ImageIcon(loadedImageIcon.getImage().getScaledInstance(zoomWidth, zoomHeight, java.awt.Image.SCALE_SMOOTH));
+    }
 
 }

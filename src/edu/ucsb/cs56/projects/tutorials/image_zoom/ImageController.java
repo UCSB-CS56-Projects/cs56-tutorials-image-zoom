@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class ImageController {
-	Logger logger = Logger.getLogger("ImageController");
+    Logger logger = Logger.getLogger("ImageController");
 
     //frame
     JFrame frame;
@@ -52,60 +52,64 @@ public class ImageController {
         frame.getContentPane().add(BorderLayout.CENTER, mainView.zoomPanel);
         frame.getContentPane().add(BorderLayout.EAST, preView.previewSection);
         frame.getContentPane().add(BorderLayout.SOUTH, mainView.zoomControlPanel);
-        frame.setSize(1000,625);
+        frame.setSize(1250,625);
         frame.setBackground(Color.WHITE);
         frame.setVisible(true);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-	///////////////// Listeners /////////////////
+    ///////////////// Listeners /////////////////
 
-	/**
-	 *
-	 * @author elswenson, andrewtran1995
-	 *
-	 */
-	class previousActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent event) {
+    /**
+     *
+     * @author elswenson, andrewtran1995
+     *
+     */
+    class previousActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent event) {
             //update previewImage model
-			previewImage.getPreviousPreviewImage();
-			//update preView view
+	    previewImage.getPreviousPreviewImage();
+	    //update preView view
             preView.setPreviewSection();
             SwingUtilities.updateComponentTreeUI(frame);
             System.out.println(previewImage.currentImageIndex);
-		}
 	}
+    }
 
-	/**
-	 *
-	 * @author elswenson, andrewtran1995
-	 *
-	 */
-	class nextActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent event) {
-			//update previewImage model
-			previewImage.getNextPreviewImage();
-			// update preView view
+    /**
+     *
+     * @author elswenson, andrewtran1995
+     *
+     */
+    class nextActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent event) {
+	    //update previewImage model
+	    previewImage.getNextPreviewImage();
+	    // update preView view
             preView.setPreviewSection();
             SwingUtilities.updateComponentTreeUI(frame);
             System.out.println(previewImage.currentImageIndex);
-		}
 	}
+    }
 
-	/**
-	 *
-	 * @author elswenson, andrewtran1995
-	 *
-	 */
-	class loadActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent event) {
+    /**
+     *
+     * @author elswenson, andrewtran1995
+     *
+     */
+    class loadActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent event) {
+	    //reset zoom and location variables
             mainImage.zoomMagnitude = 1;
+	    mainView.zoomPanel.setX(0);
+	    mainView.zoomPanel.setY(0);
+	    mainView.zoomOutButton.setEnabled(false);
             mainView.setZoomPanel();
-			mainImage.setCurrentImage(previewImage.getCurrentImage());
-            //additional items (setting map) that can be handled in mainView
+	    mainImage.setCurrentImage(previewImage.getCurrentImage());
             mainView.setMainImage();
             SwingUtilities.updateComponentTreeUI(frame);
-		}
 	}
+    }
 
     class quitActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
@@ -113,42 +117,45 @@ public class ImageController {
         }
     }
 
-	/**
-	 *
-	 * @author elswenson, andrewtran1995
-	 */
-	class zoomInActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent event) {
+    /**
+     *
+     * @author elswenson, andrewtran1995
+     */
+    class zoomInActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent event) {
             mainImage.zoomMagnitude++;
             mainView.zoomOutButton.setEnabled(true);
-            if(mainImage.zoomMagnitude == 5)
+            if(mainImage.zoomMagnitude >= 5)
                 mainView.zoomInButton.setEnabled(false);
+            System.out.println("actionListener: zoom=" + mainImage.zoomMagnitude);
             mainView.setZoomValues();
             mainView.setZoomPanel();
             mainView.setMainImage();
             SwingUtilities.updateComponentTreeUI(frame);
-		}
+	    frame.setVisible(true);
 	}
+    }
 
-	class zoomOutActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent event) {
-			mainImage.zoomMagnitude--;
+    class zoomOutActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent event) {
+	    mainImage.zoomMagnitude--;
             mainView.zoomInButton.setEnabled(true);
             if(mainImage.zoomMagnitude == 1) 
-            {
-                mainView.zoomOutButton.setEnabled(false);
-                mainView.zoomPanel.setX(0);
-                mainView.zoomPanel.setY(0);
-                System.out.println("actionListener" + mainImage.zoomMagnitude);
-            }
+		{
+		    mainView.zoomOutButton.setEnabled(false);
+		    mainView.zoomPanel.setX(0);
+		    mainView.zoomPanel.setY(0);
+		}
             else if(mainImage.zoomMagnitude > 1)
                 mainView.zoomOutButton.setEnabled(true);
+	    System.out.println("actionListener: zoom=" + mainImage.zoomMagnitude);
             mainView.setZoomValues();
             mainView.setZoomPanel();
-			mainView.setMainImage();
+	    mainView.setMainImage();
             SwingUtilities.updateComponentTreeUI(frame);
-		}
+	    frame.setVisible(true);
 	}
+    }
 
 
 

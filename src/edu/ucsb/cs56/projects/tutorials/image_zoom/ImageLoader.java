@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public abstract class ImageLoader {
 
-	public static final String DEFAULT_DIR = "build/images";
+	public static final String DEFAULT_DIR = "./images";
 
 
 	/**

@@ -9,17 +9,15 @@ public class ImageLoaderMain {
      * MODELS: MainImage, PreviewImage
      * VIEWS: MainView, PreView
      * CONTROLLERS: ImageController
+     * @author Aki Stankoski and Dennis Huynh
+     * @author Spencer Pao and Bohan Lin
+     * @author Xinzhe Wang and Shuai Lang
      * @author elswenson, andrewtran1995
      * @param args
      */
     public static void main(String[] args) throws IOException {
-        MainImage mainImage = new MainImage();
-        PreviewImage previewImage = new PreviewImage();
-        MainView mainView = new MainView(mainImage);
-        PreView preView = new PreView(previewImage);
-        ImageController imageController = new ImageController(mainImage, previewImage,
-                                                              mainView, preView);
-        imageController.setUpDisplay();
+    	
+    	ImageController imageController = new ImageController();
 
     }
 }

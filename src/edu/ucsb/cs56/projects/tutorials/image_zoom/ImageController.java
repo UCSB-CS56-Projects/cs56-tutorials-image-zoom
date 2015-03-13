@@ -1,12 +1,14 @@
 package edu.ucsb.cs56.projects.tutorials.image_zoom;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class ImageController {
 	Logger logger = Logger.getLogger("ImageController");
@@ -21,18 +23,17 @@ public class ImageController {
     //views
     MainView mainView;
     PreView preView;
-
-	/**
-	 *
-	 */
-	public ImageController(MainImage mainImage, PreviewImage previewImage,
-                           MainView mainView, PreView preView){
-        this.frame = mainView.frame;
-        this.mainImage = mainImage;
-        this.previewImage = previewImage;
-        this.mainView = mainView;
-        this.preView = preView;
-		mainImage.setCurrentImage(previewImage.getCurrentImage());
+    
+    /**
+     *  ImageController() creates a new image controller object and sets up the parts of the system
+     *  following MVC architecture. 
+     */
+    public ImageController() {
+    	this.previewImage = new PreviewImage();
+    	this.mainImage = new MainImage(previewImage.getCurrentImage());
+    	this.preView = new PreView(this.previewImage);
+    	this.mainView = new MainView(this.mainImage);
+    	this.frame = mainView.frame;
         // set listeners
         this.mainView.setZoomListeners(new quitActionListener(),
                                        new zoomInActionListener(),
@@ -40,38 +41,21 @@ public class ImageController {
         this.preView.setPreviewListeners(new previousActionListener(),
                                          new nextActionListener(),
                                          new loadActionListener());
-
-	}
-
-    public void setUpDisplay() throws IOException {
-        addToFrame();
-	frame.setVisible(true);
+        setUpDisplay();
     }
-
-    public void addToFrame() {
+    
+    /**
+     * setUpDisplay() adds panes to the display, sets the size, background, and sets visibility
+     */
+    public void setUpDisplay() 
+    {
         frame.getContentPane().add(BorderLayout.CENTER, mainView.zoomPanel);
         frame.getContentPane().add(BorderLayout.EAST, preView.previewSection);
         frame.getContentPane().add(BorderLayout.SOUTH, mainView.zoomControlPanel);
+        frame.setSize(1000,625);
+        frame.setBackground(Color.WHITE);
+        frame.setVisible(true);
     }
-
-    /**
-     */
-    public void getPreviousPreviewImage(){
-        if (previewImage.currentImageIndex == 0)
-            previewImage.setCurrentImageIndex(previewImage.loadedImages.size() - 1);
-        else
-            previewImage.setCurrentImageIndex(--(previewImage.currentImageIndex));
-    }
-
-	/**
-	 *
-	 */
-	public void getNextPreviewImage(){
-		if (previewImage.currentImageIndex == previewImage.loadedImages.size() - 1)
-			previewImage.setCurrentImageIndex(0);
-		else
-			previewImage.setCurrentImageIndex(++(previewImage.currentImageIndex));
-	}
 
 	///////////////// Listeners /////////////////
 
@@ -83,11 +67,10 @@ public class ImageController {
 	class previousActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
             //update previewImage model
-			getPreviousPreviewImage();
+			previewImage.getPreviousPreviewImage();
 			//update preView view
-            preView.previewName = previewImage.getCurrentImage().getDescription();
             preView.setPreviewSection();
-            addToFrame();
+            SwingUtilities.updateComponentTreeUI(frame);
             System.out.println(previewImage.currentImageIndex);
 		}
 	}
@@ -100,11 +83,10 @@ public class ImageController {
 	class nextActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			//update previewImage model
-			getNextPreviewImage();
+			previewImage.getNextPreviewImage();
 			// update preView view
-            preView.previewName = previewImage.getCurrentImage().getDescription();
             preView.setPreviewSection();
-            addToFrame();
+            SwingUtilities.updateComponentTreeUI(frame);
             System.out.println(previewImage.currentImageIndex);
 		}
 	}
@@ -116,12 +98,12 @@ public class ImageController {
 	 */
 	class loadActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-            mainImage.zoomMagnitude = 0;
+            mainImage.zoomMagnitude = 1;
             mainView.setZoomPanel();
 			mainImage.setCurrentImage(previewImage.getCurrentImage());
             //additional items (setting map) that can be handled in mainView
-            mainView.setImageLabel();
-            addToFrame();
+            mainView.setMainImage();
+            SwingUtilities.updateComponentTreeUI(frame);
 		}
 	}
 
@@ -143,8 +125,8 @@ public class ImageController {
                 mainView.zoomInButton.setEnabled(false);
             mainView.setZoomValues();
             mainView.setZoomPanel();
-            mainView.setImageLabel();
-            addToFrame();
+            mainView.setMainImage();
+            SwingUtilities.updateComponentTreeUI(frame);
 		}
 	}
 
@@ -152,7 +134,8 @@ public class ImageController {
 		public void actionPerformed(ActionEvent event) {
 			mainImage.zoomMagnitude--;
             mainView.zoomInButton.setEnabled(true);
-            if(mainImage.zoomMagnitude == 0) {
+            if(mainImage.zoomMagnitude == 1) 
+            {
                 mainView.zoomOutButton.setEnabled(false);
                 mainView.zoomPanel.setX(0);
                 mainView.zoomPanel.setY(0);
@@ -162,8 +145,8 @@ public class ImageController {
                 mainView.zoomOutButton.setEnabled(true);
             mainView.setZoomValues();
             mainView.setZoomPanel();
-			mainView.setImageLabel();
-            addToFrame();
+			mainView.setMainImage();
+            SwingUtilities.updateComponentTreeUI(frame);
 		}
 	}
 

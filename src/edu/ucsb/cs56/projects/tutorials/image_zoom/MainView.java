@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
  */
 public class MainView {
 	// main frame and panels managed in MainView.java
-	JFrame frame = new JFrame(Constants.frameTitle);
+	JFrame frame = new JFrame(Constants.FRAME_TITLE);
     ZoomPanel zoomPanel = new ZoomPanel();
 	JPanel zoomControlPanel = new JPanel();
 
@@ -29,22 +29,31 @@ public class MainView {
 	/**
 	 *
 	 */
-	public MainView(MainImage mainImage) {
+	public MainView(MainImage mainImage) 
+	{
         this.mainImage = mainImage;
 		frame.setPreferredSize(new Dimension(1000,625));
 		frame.setResizable(false);
 		setZoomPanel();
         setZoomControlPanel();
-        setImageLabel();
+        setMainImage();
         zoomPanel.addKeyListener(zoomPanel);
 	}
-
-    public void setZoomValues() {
-        mainImage.zoomWidth = mainImage.zoomMagnitude * Constants.width;//scales width
-        mainImage.zoomHeight = mainImage.zoomMagnitude * Constants.height;//scales height
+	
+	/**
+	 * 
+	 */
+    public void setZoomValues() 
+    {
+        mainImage.zoomWidth = mainImage.zoomMagnitude * Constants.MAIN_IMAGE_BASE_WIDTH;//scales width
+        mainImage.zoomHeight = mainImage.zoomMagnitude * Constants.MAIN_IMAGE_BASE_HEIGHT;//scales height
     }
-
-    public void setZoomPanel() {
+    
+    /**
+     * 
+     */
+    public void setZoomPanel() 
+    {
         if(zoomPanel != null) {
             zoomPanel.removeAll();
             zoomPanel.setBackground(Color.WHITE);//creates new panel for the sample image
@@ -53,27 +62,27 @@ public class MainView {
         }
     }
 
-    public void setImageLabel() {
+    /**
+     * 
+     */
+    public void setMainImage() 
+    {
     	if(imageLabel != null)
     		zoomPanel.remove(imageLabel);
-        if(mainImage.zoomMagnitude == 0) {
-            imageLabel = new JLabel(mainImage.getCurrentImage());
-            imageLabel.setSize(new Dimension(1500,900));
-        } else {
-            Image image = mainImage.getCurrentImage().getImage();
-            Image zoomed = image.getScaledInstance(mainImage.zoomWidth,
-                                            mainImage.zoomHeight,
-                                            Image.SCALE_SMOOTH);
-            imageLabel = new JLabel(new ImageIcon(zoomed));
-            imageLabel.setSize(new Dimension(1500,900));
-        }
-        zoomPanel.add(imageLabel);
+    	ImageIcon loadedImageIcon = new ImageIcon("./images/" + mainImage.getCurrentImage().getDescription());
+    	ImageIcon scaledImageIcon = new ImageIcon(loadedImageIcon.getImage().getScaledInstance(mainImage.zoomWidth, 
+    																						   mainImage.zoomHeight,
+    																						   Image.SCALE_SMOOTH));
+        imageLabel = new JLabel(scaledImageIcon);
+    	imageLabel.setSize(new Dimension(1500,900));
+        zoomPanel.add(imageLabel); 
     }
 
 	/**
 	 *
 	 */
-	public void setZoomControlPanel() {
+	public void setZoomControlPanel() 
+	{
 		// add buttons to zoomControlPanel
 		zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
 		zoomControlPanel.add(quitButton);
@@ -94,37 +103,68 @@ public class MainView {
 	 * @param zoomInListener
 	 * @param zoomOutListener
 	 */
-	public void setZoomListeners(ActionListener quitListener, ActionListener zoomInListener, ActionListener zoomOutListener) {
+	public void setZoomListeners(ActionListener quitListener, ActionListener zoomInListener, ActionListener zoomOutListener) 
+	{
 		quitButton.addActionListener(quitListener);
 		zoomInButton.addActionListener(zoomInListener);
 		zoomOutButton.addActionListener(zoomOutListener);
 	}
 
-    class ZoomPanel extends JPanel implements KeyListener {
-        private int x;
+    class ZoomPanel extends JPanel implements KeyListener 
+    {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 4642288009275892215L;
+		private int x;
         private int y;
 
-        public ZoomPanel() {
+        /**
+         * 
+         */
+        public ZoomPanel() 
+        {
             this.removeAll();
+            this.setSize(1000, 625);
             this.setLayout(new BorderLayout());
             this.setBackground(Color.WHITE);
-            this.setSize(1000, 600);
+            setX(0);
+            setY(0);
             setFocusable(true);
             setFocusTraversalKeysEnabled(false);
         }
-
-        public void setX(int x) { this.x = x; }
-        public void setY(int y) { this.y = y; }
-
-        public void paintComponent(Graphics g) {
+        
+        /**
+         * 
+         * @param x
+         */
+        public void setX(int x) 
+        { 
+        	this.x = x; 
+    	}
+        
+        /**
+         * 
+         * @param y
+         */
+        public void setY(int y) 
+        { 
+        	this.y = y; 
+    	}
+        
+        @Override
+        public void paintComponent(Graphics g) 
+        {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
             g2d.drawImage(mainImage.getCurrentImage().getImage(),x,y,this);
         }
-
-        public void keyPressed(KeyEvent key) {
-            if(mainImage.zoomMagnitude == 0);
-            else {
+        	
+        @Override
+        public void keyPressed(KeyEvent key) 
+        {
+            if(mainImage.zoomMagnitude > 1)
+            {
                 switch(key.getKeyCode()) {
                     case KeyEvent.VK_RIGHT:
                         x = x - 10;
@@ -142,8 +182,12 @@ public class MainView {
             }
             this.repaint();
         }
-        public void keyReleased(KeyEvent key) {} //needed for implementation
-        public void keyTyped(KeyEvent key) {} //needed for implementation
+        
+        @Override
+        public void keyReleased(KeyEvent key) {}
+        
+        @Override
+        public void keyTyped(KeyEvent key) {}
     }
 
 

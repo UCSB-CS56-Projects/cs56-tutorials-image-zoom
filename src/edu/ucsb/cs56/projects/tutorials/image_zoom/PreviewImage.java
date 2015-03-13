@@ -80,5 +80,26 @@ public class PreviewImage extends ImageLoader {
 		assert (i >= 0);
 		currentImageIndex = i;
 	}
+	
+    /**
+     */
+    public void getPreviousPreviewImage()
+    {
+        if (currentImageIndex == 0)
+            setCurrentImageIndex(loadedImages.size() - 1);
+        else
+            setCurrentImageIndex(--(currentImageIndex));
+    }
+
+	/**
+	 * getNextPreviewImage() sets the previewImage model to the next of its list of images.
+	 */
+	public void getNextPreviewImage()
+	{
+		if (currentImageIndex == loadedImages.size() - 1)
+			setCurrentImageIndex(0);
+		else
+			setCurrentImageIndex(++(currentImageIndex));
+	}
 
 }

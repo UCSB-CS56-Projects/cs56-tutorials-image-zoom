@@ -16,8 +16,7 @@ public class PreView {
 	JPanel directionsPanel = new JPanel();//directions, placed in top-right
 
     JPanel previewLabelPanel = new JPanel();
-    String previewName = "HFH.jpg";//initialized string, part of label
-    JLabel previewLabel = new JLabel("Preview - " + previewName);//label for preview image
+    JLabel previewLabel; //label for preview image
 
     JPanel previewMainPanel = new JPanel();//panel for preview image
 
@@ -53,11 +52,12 @@ public class PreView {
         previewSection.add(previewMainPanel);
         previewSection.add(previewButtonsPanel);
     }
+    
 	/**
 	 *
 	 */
 	public void setDirectionsPanel() {
-		JTextArea directionsTextArea = new JTextArea(Constants.defaultDirections);
+		JTextArea directionsTextArea = new JTextArea(Constants.DEFAULT_DIRECTIONS);
 		directionsTextArea.setEditable(false);
 		directionsTextArea.setLineWrap(true);
 		directionsTextArea.setWrapStyleWord(true);
@@ -67,19 +67,28 @@ public class PreView {
         //^love that comment^
 	}
 
-
-    public void setPreviewLabelPanel() {
-        previewLabelPanel.add(previewLabel);
+	/**
+	 * 
+	 */
+    public void setPreviewLabelPanel() 
+    {
+    	String previewName = previewImage.getCurrentImage().getDescription();
+    	this.previewLabel = new JLabel("Preview - " + previewName);
+    	previewLabelPanel.removeAll();
+    	previewLabelPanel.add(this.previewLabel);
     }
+    
     //set previewMainPanel
-    public void setPreviewMainPanel() {
+    public void setPreviewMainPanel() 
+    {
         previewMainPanel = new JPanel();
         previewMainPanel.setLayout(new BorderLayout());
         previewMainPanel.add(new JLabel(previewImage.getCurrentImage()));
     }
 
     //set previewButtonsPanel
-    public void setPreviewButtonsPanel() {
+    public void setPreviewButtonsPanel() 
+    {
         previewButtonsPanel.add(previousButton);
         previewButtonsPanel.add(nextButton);
         previewButtonsPanel.add(loadButton);
@@ -87,19 +96,11 @@ public class PreView {
 
     public void setPreviewListeners(ActionListener previousListener,
                                     ActionListener nextListener,
-                                    ActionListener loadListener) {
+                                    ActionListener loadListener) 
+    {
         previousButton.addActionListener(previousListener);
         nextButton.addActionListener(nextListener);
         loadButton.addActionListener(loadListener);
-    }
-
-    /**
-     * Class that seems unecessary.
-     */
-    class PreviewPanel extends JPanel {
-        public PreviewPanel() {
-            previewLabel = new JLabel("Preview - " + previewName);
-        }
     }
 
 }

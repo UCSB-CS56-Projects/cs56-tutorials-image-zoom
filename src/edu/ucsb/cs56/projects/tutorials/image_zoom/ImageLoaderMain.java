@@ -2,6 +2,13 @@ package edu.ucsb.cs56.projects.tutorials.image_zoom;
 
 import java.io.IOException;
 
+/**
+ * @author Aki Stankoski and Dennis Huynh
+ * @author Spencer Pao and Bohan Lin
+ * @author Xinzhe Wang and Shuai Lang
+ * @author Andrew Tran and Eric Swenson
+ *
+ */
 public class ImageLoaderMain {
 
     /**

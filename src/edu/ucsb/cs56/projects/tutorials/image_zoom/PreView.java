@@ -5,6 +5,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * @author Aki Stankoski and Dennis Huynh
+ * @author Spencer Pao and Bohan Lin
+ * @author Xinzhe Wang and Shuai Lang
+ * @author Andrew Tran and Eric Swenson
+ * PreView is a view that handles input and display for the preview image, 
+ * previous, next, and load buttons, and the instructions.
+ */
 public class PreView {
 
     PreviewImage previewImage;//model to be used with PreView
@@ -29,12 +37,17 @@ public class PreView {
      * Constructor which takes in PreviewImage for PreView to interact with
      * @param previewImage
      */
-    public PreView(PreviewImage previewImage) {
+    public PreView(PreviewImage previewImage) 
+    {
         this.previewImage = previewImage;//set this PreView's model
         setPreviewSection();
     }
 
-    public void setPreviewSection() {
+    /**
+     * setPreviewSection() sets all the portions of the view, resetting them if it's done. 
+     */
+    public void setPreviewSection() 
+    {
         if(previewSection != null) {
             previewSection.removeAll();
             previewSection.setBackground(Color.WHITE);
@@ -54,21 +67,20 @@ public class PreView {
     }
     
 	/**
-	 *
+	 * setDirectionsPanel sets the text in the DirectionsPanel 
 	 */
-	public void setDirectionsPanel() {
+	public void setDirectionsPanel() 
+	{
 		JTextArea directionsTextArea = new JTextArea(Constants.DEFAULT_DIRECTIONS);
 		directionsTextArea.setEditable(false);
 		directionsTextArea.setLineWrap(true);
 		directionsTextArea.setWrapStyleWord(true);
 		directionsTextArea.setPreferredSize(new Dimension(200, 200));
         directionsPanel.add(directionsTextArea);
-		//TODO handle resetpreviewsectionbullshit
-        //^love that comment^
 	}
 
 	/**
-	 * 
+	 * setPreviewLabelPanel resets the preview image label
 	 */
     public void setPreviewLabelPanel() 
     {
@@ -78,7 +90,9 @@ public class PreView {
     	previewLabelPanel.add(this.previewLabel);
     }
     
-    //set previewMainPanel
+    /**
+     * setPreviewMainPanel sets the previewImage
+     */
     public void setPreviewMainPanel() 
     {
         previewMainPanel = new JPanel();
@@ -86,7 +100,9 @@ public class PreView {
         previewMainPanel.add(new JLabel(previewImage.getCurrentImage()));
     }
 
-    //set previewButtonsPanel
+    /**
+     * setPreviewButtonsPanel() sets the buttons in the view
+     */
     public void setPreviewButtonsPanel() 
     {
         previewButtonsPanel.add(previousButton);
@@ -94,6 +110,12 @@ public class PreView {
         previewButtonsPanel.add(loadButton);
     }
 
+    /**
+     * setPreviewListeners sets the listeners
+     * @param previousListener listener class for the 'previous' Button
+     * @param nextListener listener class for the 'next' Button
+     * @param loadListener listener class for the 'loadListener' Button
+     */
     public void setPreviewListeners(ActionListener previousListener,
                                     ActionListener nextListener,
                                     ActionListener loadListener) 

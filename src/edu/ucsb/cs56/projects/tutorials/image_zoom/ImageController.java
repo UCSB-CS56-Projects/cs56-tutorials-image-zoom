@@ -10,6 +10,16 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+/**
+ * @author Aki Stankoski and Dennis Huynh
+ * @author Spencer Pao and Bohan Lin
+ * @author Xinzhe Wang and Shuai Lang
+ * @author Andrew Tran and Eric Swenson
+ * ImageController is a controller that handles all the interactions between the
+ * models and views. In particular, ImageController contains specialized subclasses of
+ * listener classes as inner classes that are then added to the views, and allow
+ * modification of items in the models
+ */
 public class ImageController {
     Logger logger = Logger.getLogger("ImageController");
 
@@ -55,74 +65,101 @@ public class ImageController {
         frame.setSize(1250,625);
         frame.setBackground(Color.WHITE);
         frame.setVisible(true);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     ///////////////// Listeners /////////////////
 
     /**
-     *
-     * @author elswenson, andrewtran1995
-     *
+	 * @author Aki Stankoski and Dennis Huynh
+	 * @author Spencer Pao and Bohan Lin
+	 * @author Xinzhe Wang and Shuai Lang
+	 * @author Andrew Tran and Eric Swenson
+     * Specialized ActionListener to handle updates to the previewImage
      */
-    class previousActionListener implements ActionListener {
-	public void actionPerformed(ActionEvent event) {
-            //update previewImage model
-	    previewImage.getPreviousPreviewImage();
-	    //update preView view
-            preView.setPreviewSection();
-            SwingUtilities.updateComponentTreeUI(frame);
-            System.out.println(previewImage.currentImageIndex);
-	}
+    class previousActionListener implements ActionListener 
+    {
+		public void actionPerformed(ActionEvent event) 
+		{
+	        //update previewImage model
+		    previewImage.getPreviousPreviewImage();
+		    //update preView view
+	        preView.setPreviewSection();
+	        SwingUtilities.updateComponentTreeUI(frame);
+	        System.out.println(previewImage.currentImageIndex);
+		}
     }
 
     /**
-     *
-     * @author elswenson, andrewtran1995
-     *
+	 * @author Aki Stankoski and Dennis Huynh
+	 * @author Spencer Pao and Bohan Lin
+	 * @author Xinzhe Wang and Shuai Lang
+	 * @author Andrew Tran and Eric Swenson
+     * Specialized ActionListener to handle updates to the previewImage
      */
-    class nextActionListener implements ActionListener {
-	public void actionPerformed(ActionEvent event) {
-	    //update previewImage model
-	    previewImage.getNextPreviewImage();
-	    // update preView view
-            preView.setPreviewSection();
-            SwingUtilities.updateComponentTreeUI(frame);
-            System.out.println(previewImage.currentImageIndex);
-	}
+    class nextActionListener implements ActionListener 
+    {
+    	public void actionPerformed(ActionEvent event) 
+		{
+		    //update previewImage model
+		    previewImage.getNextPreviewImage();
+		    // update preView view
+	        preView.setPreviewSection();
+	        SwingUtilities.updateComponentTreeUI(frame);
+	        System.out.println(previewImage.currentImageIndex);
+		}
     }
 
     /**
-     *
-     * @author elswenson, andrewtran1995
-     *
+	 * @author Aki Stankoski and Dennis Huynh
+	 * @author Spencer Pao and Bohan Lin
+	 * @author Xinzhe Wang and Shuai Lang
+	 * @author Andrew Tran and Eric Swenson
+     * Specialized ActionListener to handle updates to the mainImage
      */
-    class loadActionListener implements ActionListener {
-	public void actionPerformed(ActionEvent event) {
-	    //reset zoom and location variables
-            mainImage.zoomMagnitude = 1;
-	    mainView.zoomPanel.setX(0);
-	    mainView.zoomPanel.setY(0);
-	    mainView.zoomOutButton.setEnabled(false);
-            mainView.setZoomPanel();
-	    mainImage.setCurrentImage(previewImage.getCurrentImage());
-            mainView.setMainImage();
-            SwingUtilities.updateComponentTreeUI(frame);
-	}
+    class loadActionListener implements ActionListener 
+    {
+    	public void actionPerformed(ActionEvent event) 
+    	{
+		    //reset zoom and location variables
+	        mainImage.zoomMagnitude = 1;
+		    mainView.zoomPanel.setX(0);
+		    mainView.zoomPanel.setY(0);
+		    mainView.zoomOutButton.setEnabled(false);
+	        mainView.setZoomPanel();
+		    mainImage.setCurrentImage(previewImage.getCurrentImage());
+	        mainView.setMainImage();
+	        SwingUtilities.updateComponentTreeUI(frame);
+		}	
     }
-
-    class quitActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
+    
+    /**
+	 * @author Aki Stankoski and Dennis Huynh
+	 * @author Spencer Pao and Bohan Lin
+	 * @author Xinzhe Wang and Shuai Lang
+	 * @author Andrew Tran and Eric Swenson
+     * Specialized ActionListener to handle exiting the system.
+     */
+    class quitActionListener implements ActionListener 
+    {
+        public void actionPerformed(ActionEvent event) 
+        {
             System.exit(0);
         }
     }
 
     /**
-     *
-     * @author elswenson, andrewtran1995
+	 * @author Aki Stankoski and Dennis Huynh
+	 * @author Spencer Pao and Bohan Lin
+	 * @author Xinzhe Wang and Shuai Lang
+	 * @author Andrew Tran and Eric Swenson
+     * Specialized ActionListener to handle updates the zooming properties
+     * of the main Image and View
      */
-    class zoomInActionListener implements ActionListener {
-	public void actionPerformed(ActionEvent event) {
+    class zoomInActionListener implements ActionListener 
+    {
+    	public void actionPerformed(ActionEvent event) 
+    	{
             mainImage.zoomMagnitude++;
             mainView.zoomOutButton.setEnabled(true);
             if(mainImage.zoomMagnitude >= 5)
@@ -132,29 +169,39 @@ public class ImageController {
             mainView.setZoomPanel();
             mainView.setMainImage();
             SwingUtilities.updateComponentTreeUI(frame);
-	    frame.setVisible(true);
-	}
+            frame.setVisible(true);
+    	}
     }
 
-    class zoomOutActionListener implements ActionListener {
-	public void actionPerformed(ActionEvent event) {
-	    mainImage.zoomMagnitude--;
+    /**
+	 * @author Aki Stankoski and Dennis Huynh
+	 * @author Spencer Pao and Bohan Lin
+	 * @author Xinzhe Wang and Shuai Lang
+	 * @author Andrew Tran and Eric Swenson
+     * Specialized ActionListener to handle updates the zooming properties
+     * of the main Image and View
+     */
+    class zoomOutActionListener implements ActionListener 
+    {
+    	public void actionPerformed(ActionEvent event) 
+    	{
+    		mainImage.zoomMagnitude--;
             mainView.zoomInButton.setEnabled(true);
             if(mainImage.zoomMagnitude == 1) 
-		{
-		    mainView.zoomOutButton.setEnabled(false);
-		    mainView.zoomPanel.setX(0);
-		    mainView.zoomPanel.setY(0);
-		}
+            {
+			    mainView.zoomOutButton.setEnabled(false);
+			    mainView.zoomPanel.setX(0);
+			    mainView.zoomPanel.setY(0);
+			}
             else if(mainImage.zoomMagnitude > 1)
                 mainView.zoomOutButton.setEnabled(true);
-	    System.out.println("actionListener: zoom=" + mainImage.zoomMagnitude);
+		    System.out.println("actionListener: zoom=" + mainImage.zoomMagnitude);
             mainView.setZoomValues();
             mainView.setZoomPanel();
-	    mainView.setMainImage();
+		    mainView.setMainImage();
             SwingUtilities.updateComponentTreeUI(frame);
-	    frame.setVisible(true);
-	}
+		    frame.setVisible(true);
+    	}
     }
 
 

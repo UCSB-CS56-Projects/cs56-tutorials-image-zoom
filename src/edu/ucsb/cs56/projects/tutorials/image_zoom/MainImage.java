@@ -8,6 +8,14 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
+/**
+ * @author Aki Stankoski and Dennis Huynh
+ * @author Spencer Pao and Bohan Lin
+ * @author Xinzhe Wang and Shuai Lang
+ * @author Andrew Tran and Eric Swenson
+ * MainImage is a model that contains the current imageIcon as well as
+ * relevant variables for panning and zooming around the image.
+ */
 public class MainImage extends ImageLoader {
     Logger logger = Logger.getLogger("MainImage");
 
@@ -30,12 +38,12 @@ public class MainImage extends ImageLoader {
      *  default Constructor;
      */
     public MainImage(ImageIcon icon) {
-	this.setCurrentImage(icon);
-	this.zoomMagnitude = 1;
-	this.zoomWidth = Constants.MAIN_IMAGE_BASE_WIDTH;
-	this.zoomHeight = Constants.MAIN_IMAGE_BASE_HEIGHT;
-	this.x = 0;
-	this.y = 0;
+		this.setCurrentImage(icon);
+		this.zoomMagnitude = 1;
+		this.zoomWidth = Constants.MAIN_IMAGE_BASE_WIDTH;
+		this.zoomHeight = Constants.MAIN_IMAGE_BASE_HEIGHT;
+		this.x = 0;
+		this.y = 0;
     }
 
     /**
@@ -43,7 +51,7 @@ public class MainImage extends ImageLoader {
      * @param image the new main image to be displayed
      */
     public void setCurrentImage(ImageIcon image) {
-	currentImage = image;
+    	currentImage = image;
     }
 	
     /**
@@ -52,7 +60,7 @@ public class MainImage extends ImageLoader {
      */
     public ImageIcon getCurrentImage() 
     {
-	return currentImage;
+    	return currentImage;
     }
 
     /**
@@ -62,9 +70,9 @@ public class MainImage extends ImageLoader {
      */
     public ImageIcon getResizedImage() 
     {
-	ImageIcon loadedImageIcon = new ImageIcon("./build/images/" + currentImage.getDescription());
-	System.out.println(loadedImageIcon.getDescription());
-	return new ImageIcon(loadedImageIcon.getImage().getScaledInstance(zoomWidth, zoomHeight, java.awt.Image.SCALE_SMOOTH));
+		ImageIcon loadedImageIcon = new ImageIcon("./build/images/" + currentImage.getDescription());
+		System.out.println(loadedImageIcon.getDescription());
+		return new ImageIcon(loadedImageIcon.getImage().getScaledInstance(zoomWidth, zoomHeight, java.awt.Image.SCALE_SMOOTH));
     }
 
 }

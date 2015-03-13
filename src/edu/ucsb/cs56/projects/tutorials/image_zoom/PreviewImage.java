@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author Aki Stankoski and Dennis Huynh
+ * @author Spencer Pao and Bohan Lin
+ * @author Xinzhe Wang and Shuai Lang
+ * @author Andrew Tran and Eric Swenson
+ * PreviewImage is a model for the preview Image which contains a list of imageIcons and 
+ * keeps track of the current image.
+ */
 public class PreviewImage extends ImageLoader {
 
 	Logger logger = Logger.getLogger("previewImageModel");
@@ -16,7 +24,8 @@ public class PreviewImage extends ImageLoader {
 	/**
 	 * Default Constructor PreviewImage() loads the default image files
 	 */
-	public PreviewImage() {
+	public PreviewImage() 
+	{
 		loadedImages = new ArrayList<ImageIcon>();
 		loadFiles(ImageLoader.DEFAULT_DIR);
 		currentImageIndex = 0;
@@ -27,7 +36,8 @@ public class PreviewImage extends ImageLoader {
 	 * @param dirName the relative path to the directory
 	 * @return true if it is a directory and the files are added, false if it is not a directory
 	 */
-	private boolean loadFiles(String dirName) {
+	private boolean loadFiles(String dirName) 
+	{
 		File dir = new File(dirName);
 		if(dir.isDirectory()) {
 			for(File f : dir.listFiles()) {
@@ -49,7 +59,8 @@ public class PreviewImage extends ImageLoader {
 	 * @param filePath the absolute filepath to the image
 	 * @return true if the image is added, false if the file is not an image
 	 */
-	public boolean addUserImage(String filePath) {
+	public boolean addUserImage(String filePath) 
+	{
 		File image = new File(filePath);
 		if(image.isFile()) {
 			try {
@@ -67,7 +78,8 @@ public class PreviewImage extends ImageLoader {
 	 * getCurrentImage() returns the imageIcon for the currently selected image
 	 * @return the imageIcon object that is the currently selected image
 	 */
-	public ImageIcon getCurrentImage() {
+	public ImageIcon getCurrentImage() 
+	{
 		return loadedImages.get(currentImageIndex);
 	}
 
@@ -75,7 +87,8 @@ public class PreviewImage extends ImageLoader {
 	 * setCurrentImageIndex() sets the current image index, uses two assertions to require proper values.
 	 * @param i is the new image index
 	 */
-	public void setCurrentImageIndex(int i) {
+	public void setCurrentImageIndex(int i) 
+	{
 		assert (i < loadedImages.size());
 		assert (i >= 0);
 		currentImageIndex = i;

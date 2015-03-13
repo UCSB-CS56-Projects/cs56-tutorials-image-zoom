@@ -8,8 +8,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- *
- * @author elswenson, andrewtran1995
+ * @author Aki Stankoski and Dennis Huynh
+ * @author Spencer Pao and Bohan Lin
+ * @author Xinzhe Wang and Shuai Lang
+ * @author Andrew Tran and Eric Swenson
  *
  */
 public class MainView {
@@ -28,22 +30,23 @@ public class MainView {
     JButton zoomOutButton = new JButton("Zoom -");
 
     /**
-     *
+     * Constructor for the MainView class which sets up the main image display
+     * @param mainImage a mainImage model reference
      */
     public MainView(MainImage mainImage) 
     {
         this.mainImage = mainImage;
-	frame.setPreferredSize(new Dimension(1500,900));
-	frame.setResizable(false);
-	setZoomValues();
-	setZoomPanel();
+        frame.setPreferredSize(new Dimension(1500,900));
+        frame.setResizable(false);
+        setZoomValues();
+        setZoomPanel();
         setZoomControlPanel();
-	zoomPanel.addKeyListener(zoomPanel);
+        zoomPanel.addKeyListener(zoomPanel);
         setMainImage();
     }
 	
     /**
-     * 
+     * setZoomValues() sets the current zoomValues in the mainImage of this mainView
      */
     public void setZoomValues() 
     {
@@ -52,7 +55,7 @@ public class MainView {
     }
     
     /**
-     * 
+     * setZoomPanel() resets the zoomablePanel
      */
     public void setZoomPanel() 
     {
@@ -71,11 +74,11 @@ public class MainView {
     {
     	if(imageLabel != null)
 	    zoomPanel.remove(imageLabel);
-	imageIcon = mainImage.getResizedImage();
-	imageLabel = new JLabel(imageIcon);
-	imageLabel.setSize(new Dimension(1500,900));
-	//zoomPanel.add(imageLabel);
-	System.out.println("[SETMAINIMAGE]zoomWidth="+mainImage.zoomWidth+",zoomHeight="+mainImage.zoomHeight);
+		imageIcon = mainImage.getResizedImage();
+		imageLabel = new JLabel(imageIcon);
+		imageLabel.setSize(new Dimension(1500,900));
+		//zoomPanel.add(imageLabel);
+		System.out.println("[SETMAINIMAGE]zoomWidth="+mainImage.zoomWidth+",zoomHeight="+mainImage.zoomHeight);
     }
 
     /**
@@ -83,21 +86,21 @@ public class MainView {
      */
     public void setZoomControlPanel() 
     {
-	// add buttons to zoomControlPanel
-	zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	zoomControlPanel.add(quitButton);
-	quitButton.setFocusable(false);
-
+		// add buttons to zoomControlPanel
+		zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
+		zoomControlPanel.add(quitButton);
+		quitButton.setFocusable(false);
+	
         zoomInButton.setPreferredSize(new Dimension(100,50));
-	zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	zoomControlPanel.add(zoomInButton);
-	zoomInButton.setFocusable(false);
+		zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
+		zoomControlPanel.add(zoomInButton);
+		zoomInButton.setFocusable(false);
 
         zoomOutButton.setPreferredSize(new Dimension(100,50));
         zoomOutButton.setEnabled(false);
-	zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
-	zoomControlPanel.add(zoomOutButton);
-	zoomOutButton.setFocusable(false);
+		zoomControlPanel.add(Box.createRigidArea(new Dimension(200,50)));
+		zoomControlPanel.add(zoomOutButton);
+		zoomOutButton.setFocusable(false);
     }
 
     /**
@@ -108,21 +111,26 @@ public class MainView {
      */
     public void setZoomListeners(ActionListener quitListener, ActionListener zoomInListener, ActionListener zoomOutListener) 
     {
-	quitButton.addActionListener(quitListener);
-	zoomInButton.addActionListener(zoomInListener);
-	zoomOutButton.addActionListener(zoomOutListener);
+		quitButton.addActionListener(quitListener);
+		zoomInButton.addActionListener(zoomInListener);
+		zoomOutButton.addActionListener(zoomOutListener);
     }
 
     //TODO: Key bindings would be a better way to check for
     //button presses, since Key Listeners might not work if
     //"focus" is lost from container.
+    /**
+	 * @author Aki Stankoski and Dennis Huynh
+	 * @author Spencer Pao and Bohan Lin
+	 * @author Xinzhe Wang and Shuai Lang
+	 * @author Andrew Tran and Eric Swenson
+     * Specialized JPanel which implements a KeyListener that enables
+     * panning through the zoomed Image
+     */
     class ZoomPanel extends JPanel implements KeyListener 
     {
-        /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4642288009275892215L;
-	private int x;
+    	private static final long serialVersionUID = 4642288009275892215L;
+    	private int x;
         private int y;
 
         /**
@@ -146,7 +154,7 @@ public class MainView {
          */
         public void setX(int x) 
         { 
-	    this.x = x; 
+        	this.x = x; 
     	}
         
         /**
@@ -155,7 +163,7 @@ public class MainView {
          */
         public void setY(int y) 
         { 
-	    this.y = y; 
+        	this.y = y; 
     	}
         
         @Override
@@ -163,8 +171,8 @@ public class MainView {
         {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-	    mainImage.getResizedImage().paintIcon(this,g2d,x,y);
-	    System.out.println("[REPAINT]x="+x+",y="+y);
+            mainImage.getResizedImage().paintIcon(this,g2d,x,y);
+            System.out.println("[REPAINT]x="+x+",y="+y);
         }
         	
         @Override

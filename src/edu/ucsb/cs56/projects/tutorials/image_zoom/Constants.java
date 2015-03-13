@@ -1,5 +1,9 @@
 package edu.ucsb.cs56.projects.tutorials.image_zoom;
 
+/**
+ * @author Andrew Tran and Eric Swenson
+ * 
+ */
 public class Constants 
 {
 	public static final String FRAME_TITLE = "Image Zoom Demonstration";

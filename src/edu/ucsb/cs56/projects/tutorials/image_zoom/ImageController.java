@@ -45,6 +45,7 @@ public class ImageController {
 
     public void setUpDisplay() throws IOException {
         addToFrame();
+	frame.setVisible(true);
     }
 
     public void addToFrame() {

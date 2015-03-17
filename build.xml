@@ -13,6 +13,7 @@
   <property name="categoryName" value="tutorials" />
   <property name="repoName" value="image_zoom" />
   <property name="mainClass" value="edu.ucsb.cs56.projects.${categoryName}.${repoName}.Run" />
+  <property name="ImageLoaderMain" value="edu.ucsb.cs56.projects.${categoryName}.${repoName}.ImageLoaderMain" />
   <property name="RobotTestClass" value="edu.ucsb.cs56.projects.${categoryName}.${repoName}.RobotTest" />
 
   <property name="projectName" value="${course}_projects__${categoryName}_${repoName}" />
@@ -43,9 +44,16 @@
     </java>
   </target>
 
-  <!-- **************** RUN **************** -->
+  <!-- **************** RUN RobotTest**************** -->
   <target name="RobotTest" depends="compile" description="RobotTest the GUI">
     <java classname="${RobotTestClass}" classpath="build" fork="true" > 
+       <jvmarg value="-Xmx1024m"/> <!-- heap space -->
+    </java>
+  </target>
+
+<!-- **************** RUN ImageLoaderMain**************** -->
+  <target name="runMVC" depends="compile" description="Run ImageLoaderMain (MVC)">
+    <java classname="${ImageLoaderMain}" classpath="build" fork="true" > 
        <jvmarg value="-Xmx1024m"/> <!-- heap space -->
     </java>
   </target>
